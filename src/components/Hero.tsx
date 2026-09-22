@@ -4,23 +4,33 @@ import { ArrowRight } from 'lucide-react'
 import Container from './Container'
 import SocialIcon from './SocialIcon'
 import RevealImage from './RevealImage'
+import Marquee from './Marquee'
+import { useMagnetic } from '../hooks/useMagnetic'
 import heroPhoto from '../assets/images/politico-4.webp'
-import { SITE, SOCIAL_LINKS } from '../data/content'
+import { PRIORITIES, SITE, SOCIAL_LINKS } from '../data/content'
+
+const NAME_WORDS = SITE.name.split(' ')
+const TICKER_ITEMS = PRIORITIES.map((p) => p.title)
 
 export default function Hero() {
   const scope = useRef<HTMLDivElement>(null)
+  const ctaRef = useMagnetic<HTMLAnchorElement>(0.3)
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-      tl.set('[data-hero-item]', { opacity: 0, y: reduceMotion ? 0 : 22 })
-      tl.to('[data-hero-item]', { opacity: 1, y: 0, duration: 0.9, stagger: 0.09 })
 
-      if (!reduceMotion) {
-        tl.fromTo('[data-hero-frame]', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1.1 }, 0.15)
-        tl.fromTo('[data-hero-badge]', { opacity: 0, scale: 0.5, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.7 }, 0.75)
-        gsap.to('[data-hero-badge]', { y: -6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.4 })
+      if (reduceMotion) {
+        gsap.set('[data-hero-word]', { yPercent: 0 })
+      } else {
+        tl.set('[data-hero-item]', { opacity: 0, y: 22 })
+        tl.set('[data-hero-word]', { yPercent: 130, rotate: 4 })
+        tl.to('[data-hero-word]', { yPercent: 0, rotate: 0, duration: 0.85, ease: 'power4.out', stagger: 0.08 })
+        tl.to('[data-hero-item]', { opacity: 1, y: 0, duration: 0.8, stagger: 0.09 }, 0.25)
+        tl.fromTo('[data-hero-frame]', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1.1 }, 0.3)
+        tl.fromTo('[data-hero-badge]', { opacity: 0, scale: 0.5, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.7 }, 0.9)
+        gsap.to('[data-hero-badge]', { y: -6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.6 })
       }
     }, scope)
 
@@ -28,33 +38,40 @@ export default function Hero() {
   }, [])
 
   return (
-    <section id="top" ref={scope} className="relative overflow-hidden bg-ink pb-16 pt-28 md:pb-24 md:pt-32 lg:pt-36">
+    <section id="top" ref={scope} className="relative overflow-hidden bg-ink pb-0 pt-24 md:pt-28 lg:pt-32">
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -right-24 top-10 size-[26rem] rounded-full bg-ember/20 blur-[110px] animate-float-slow" />
         <div className="absolute -left-16 bottom-0 size-72 rounded-full bg-forest/25 blur-[100px] animate-float-slow [animation-delay:-4s]" />
       </div>
 
-      <Container className="relative grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10">
+      <Container className="relative grid gap-10 pb-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10 lg:pb-16">
         <div>
-          <p data-hero-item className="mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-ember-soft">
+          <p data-hero-item className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-ember-soft">
             {SITE.party} · {SITE.district}
           </p>
 
-          <h1 className="font-display leading-[0.98] tracking-tight text-paper">
-            <span data-hero-item className="block text-5xl font-semibold sm:text-6xl lg:text-7xl">
-              {SITE.name}
+          <h1 className="font-display leading-[0.94] tracking-tight text-paper">
+            <span className="flex flex-wrap gap-x-4">
+              {NAME_WORDS.map((word) => (
+                <span key={word} className="overflow-hidden pb-1">
+                  <span data-hero-word className="inline-block text-5xl font-semibold sm:text-6xl lg:text-7xl">
+                    {word}
+                  </span>
+                </span>
+              ))}
             </span>
             <span data-hero-item className="mt-2 block text-2xl font-medium text-paper/75 sm:text-3xl lg:text-4xl">
               {SITE.role}
             </span>
           </h1>
 
-          <p data-hero-item className="mt-7 max-w-lg text-base leading-relaxed text-paper/70 md:text-lg">
+          <p data-hero-item className="mt-6 max-w-lg text-base leading-relaxed text-paper/70 md:text-lg">
             {SITE.heroStatement}
           </p>
 
-          <div data-hero-item className="mt-9 flex flex-wrap items-center gap-3">
+          <div data-hero-item className="mt-8 flex flex-wrap items-center gap-3">
             <a
+              ref={ctaRef}
               href="#quien-soy"
               className="inline-flex items-center gap-2 rounded-full bg-ember px-5 py-3 text-sm font-semibold text-paper transition-transform active:scale-[0.98]"
             >
@@ -75,20 +92,17 @@ export default function Hero() {
             </a>
           </div>
 
-          <div data-hero-item className="mt-11 flex flex-wrap items-center gap-4 border-t border-paper/10 pt-6">
-            <span className="text-xs font-medium uppercase tracking-[0.14em] text-paper/45">Canales oficiales</span>
-            <div className="flex items-center gap-1.5">
-              {SOCIAL_LINKS.map((social) => (
-                <a
-                  key={social.platform}
-                  href={social.href}
-                  aria-label={social.platform}
-                  className="flex size-9 items-center justify-center rounded-full text-paper/60 transition-colors hover:bg-paper/10 hover:text-paper"
-                >
-                  <SocialIcon icon={social.icon} className="size-4" />
-                </a>
-              ))}
-            </div>
+          <div data-hero-item className="mt-9 flex flex-wrap items-center gap-3">
+            {SOCIAL_LINKS.map((social) => (
+              <a
+                key={social.platform}
+                href={social.href}
+                aria-label={social.platform}
+                className="flex size-9 items-center justify-center rounded-full text-paper/60 transition-colors hover:bg-paper/10 hover:text-paper"
+              >
+                <SocialIcon icon={social.icon} className="size-4" />
+              </a>
+            ))}
           </div>
         </div>
 
@@ -111,6 +125,8 @@ export default function Hero() {
           </div>
         </div>
       </Container>
+
+      <Marquee items={TICKER_ITEMS} />
     </section>
   )
 }

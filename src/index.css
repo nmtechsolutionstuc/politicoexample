@@ -19,6 +19,7 @@
   --animate-float-slow: float-slow 9s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 2.6s ease-in-out infinite;
   --animate-draw-line: draw-line 1.4s ease forwards;
+  --animate-marquee: marquee 22s linear infinite;
 }
 
 @layer base {
@@ -62,6 +63,11 @@
   @keyframes draw-line {
     from { stroke-dashoffset: 1; }
     to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 
   @media (prefers-reduced-motion: reduce) {

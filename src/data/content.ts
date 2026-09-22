@@ -14,6 +14,13 @@ export const SITE = {
     'Vengo del barrio y me metí en política para resolver problemas concretos, no para prometer lo que no depende de un concejal.',
 }
 
+export const STATS = [
+  { value: 300, suffix: '+', label: 'Jóvenes capacitados en oficios' },
+  { value: 11, suffix: '', label: 'Años de trabajo en el barrio' },
+  { value: 292, suffix: '', label: 'Participaciones en esta plataforma' },
+  { value: 8, suffix: '', label: 'Barrios con trabajo activo' },
+] as const
+
 export const PILLARS = [
   {
     key: 'conocer',
@@ -105,33 +112,26 @@ export const CONTACT = {
 }
 
 export const BIO_PARAGRAPHS = [
-  'Nací y crecí en el barrio Villa 9 de Julio, al sur de San Miguel de Tucumán, en la casa que todavía habitan mis padres. Fui a la escuela pública del barrio y después a la Escuela Técnica N.º 1, donde descubrí que me gustaba entender cómo funcionan las cosas para poder mejorarlas.',
-  'Estudié Ingeniería Industrial en la UTN Tucumán. Durante los últimos años de la carrera empecé a trabajar en la metalúrgica familiar, una pyme de unos veinticinco empleados que fabrica repuestos para el sector agrícola. Ahí aprendí lo que cuesta sostener una fuente de trabajo en serio, mes a mes.',
-  'En 2014 empecé a participar de la Junta Vecinal de Villa 9 de Julio, al principio ayudando con el arreglo de una plaza. De a poco me fui quedando: gestión de luminarias, reclamos por el estado de las calles, organización de la copa de leche en el comedor del barrio.',
-  'En 2019, junto a un grupo de vecinos y una escuela técnica, armamos "Oficio Tucumán", un programa de capacitación en oficios para jóvenes de 18 a 25 años sin trabajo formal. Pasaron más de 300 chicos y chicas por los cursos de electricidad domiciliaria, soldadura y gestión de pequeños comercios.',
-  'En 2021 me sumé a Frente Ciudadano porque encontré ahí una forma de pensar la ciudad parecida a la mía: menos discurso y más gestión concreta, con los vecinos adentro de las decisiones y no solamente como espectadores.',
-  'Estoy casado con Carolina, que es maestra jardinera, y tenemos dos hijos, Bautista y Delfina. Sigo viviendo a seis cuadras de la casa donde nací.',
+  'Nací y crecí en Villa 9 de Julio, al sur de la ciudad. Ingeniero Industrial (UTN Tucumán), con años en la metalúrgica familiar antes de meterme de lleno en el trabajo barrial.',
+  'Desde 2014 en la Junta Vecinal: luminarias, calles, el comedor del barrio. En 2019 cofundé Oficio Tucumán, que ya formó a más de 300 jóvenes en oficios.',
+  'Casado con Carolina, dos hijos: Bautista y Delfina. Sigo viviendo a seis cuadras de la casa donde nací.',
 ]
 
 export const MOTIVATION = {
-  intro:
-    'Esta es mi visión, en primera persona. No pretendo tener la solución a todo, pero sí una forma clara de trabajar y prioridades ordenadas.',
+  intro: 'Mi visión, en primera persona: sin solución mágica, pero con prioridades claras.',
   situations: [
-    'Pasé años reclamando por el mismo poste de luz quemado en la esquina de mi casa antes de entender que el problema no era ese poste, sino que nadie en el Concejo estaba mirando de cerca el mantenimiento del alumbrado en los barrios del sur.',
-    'Vi a decenas de chicos del barrio terminar la secundaria sin ningún oficio ni orientación laboral, y a la vez comercios que no conseguían gente capacitada para tomar.',
-    'Acompañé a vecinos que perdieron meses tratando de que el municipio les diera una respuesta sobre un reclamo simple, por falta de canales claros y de seguimiento.',
+    'Un poste de luz quemado durante años me enseñó que nadie estaba mirando el alumbrado de los barrios del sur.',
+    'Vi chicos sin oficio y comercios sin gente capacitada para tomar, al mismo tiempo.',
+    'Acompañé vecinos que esperaron meses una respuesta simple, por falta de seguimiento.',
   ],
   priorities: [
     'La seguridad y el alumbrado en los barrios que quedan lejos del centro.',
     'El empleo joven y la conexión entre formación y necesidades reales de las empresas locales.',
     'Que cualquier vecino pueda saber, sin vueltas, qué pasó con lo que reclamó o propuso.',
   ],
-  lessons:
-    'Aprendí que la gestión municipal se juega en el detalle: un bache, un semáforo, un trámite. Y que gran parte de la desconfianza de la gente no es por falta de buenas intenciones, sino por falta de información clara y de seguimiento.',
-  publicService:
-    'Para mí, servicio público significa estar disponible, rendir cuentas de lo que se hace y de lo que no se pudo hacer, y tratar cada reclamo con la misma seriedad, tenga o no cámaras adelante.',
-  whyThisRole:
-    'Decidí presentarme a Concejal porque es el lugar desde donde se controla el uso del presupuesto municipal, se legisla sobre la vida cotidiana del barrio y se puede exigir que las áreas del Ejecutivo respondan. Es un cargo con límites claros, pero con impacto real si se lo toma en serio.',
+  lessons: 'La gestión se juega en el detalle: un bache, un trámite. La desconfianza nace de la falta de seguimiento, no de mala intención.',
+  publicService: 'Estar disponible, rendir cuentas de lo que se hizo y lo que no, y tratar cada reclamo con la misma seriedad.',
+  whyThisRole: 'El Concejo controla el presupuesto y legisla la vida cotidiana del barrio. Límites claros, impacto real.',
 }
 
 export const CANDIDACY = {

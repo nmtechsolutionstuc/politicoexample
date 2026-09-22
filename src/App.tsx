@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollProgress from './components/ScrollProgress.tsx'
 import Nav from './components/Nav.tsx'
 import Hero from './components/Hero.tsx'
+import Stats from './components/Stats.tsx'
 import QuienSoy from './components/QuienSoy.tsx'
 import PorQueMeInvolucre from './components/PorQueMeInvolucre.tsx'
 import Candidatura from './components/Candidatura.tsx'
@@ -63,6 +64,7 @@ function App() {
       <Nav />
       <main>
         <Hero />
+        <Stats />
         <QuienSoy />
         <PorQueMeInvolucre />
         <Candidatura />

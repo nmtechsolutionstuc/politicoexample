@@ -59,7 +59,7 @@ export default function Contacto() {
   }
 
   return (
-    <section id="contacto" className="bg-paper py-20 md:py-28">
+    <section id="contacto" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Contacto" description="Decinos primero el motivo de tu mensaje para llevarte al lugar correcto." />
 

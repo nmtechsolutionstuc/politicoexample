@@ -10,7 +10,7 @@ export default function Prioridades() {
   const current = PRIORITIES[active]
 
   return (
-    <section id="prioridades" className="bg-ink py-20 text-paper md:py-28">
+    <section id="prioridades" className="bg-ink py-14 text-paper md:py-20">
       <Container>
         <SectionHeading tone="dark" title="Mis prioridades" description="Cinco frentes de trabajo concretos para los próximos cuatro años." />
 

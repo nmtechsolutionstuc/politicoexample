@@ -9,7 +9,7 @@ export default function PorQueMeInvolucre() {
   const blocksRef = useScrollReveal<HTMLDivElement>({ y: 18, stagger: 0.08, start: 'top 88%' })
 
   return (
-    <section id="por-que" className="bg-paper py-20 md:py-28">
+    <section id="por-que" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Por qué decidí involucrarme" />
 

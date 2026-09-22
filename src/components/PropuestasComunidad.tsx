@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { MapPin, ThumbsUp } from 'lucide-react'
+import { MapPin, Plus, ThumbsUp } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import StatusPill from './StatusPill'
@@ -7,9 +7,11 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import { COMMUNITY_PROPOSALS, IDEA_CATEGORIES } from '../data/content'
 
 const FILTERS = ['Todas', ...IDEA_CATEGORIES]
+const VISIBLE_COUNT = 4
 
 export default function PropuestasComunidad() {
   const [filter, setFilter] = useState('Todas')
+  const [showAll, setShowAll] = useState(false)
   const [supported, setSupported] = useState<Record<string, boolean>>({})
   const [counts, setCounts] = useState<Record<string, number>>(() =>
     Object.fromEntries(COMMUNITY_PROPOSALS.map((p) => [p.id, p.supports])),
@@ -20,6 +22,12 @@ export default function PropuestasComunidad() {
     () => (filter === 'Todas' ? COMMUNITY_PROPOSALS : COMMUNITY_PROPOSALS.filter((p) => p.category === filter)),
     [filter],
   )
+  const visible = showAll ? filtered : filtered.slice(0, VISIBLE_COUNT)
+
+  function selectFilter(item: string) {
+    setFilter(item)
+    setShowAll(false)
+  }
 
   function toggleSupport(id: string) {
     setSupported((prev) => {
@@ -30,7 +38,7 @@ export default function PropuestasComunidad() {
   }
 
   return (
-    <section id="comunidad" className="bg-paper py-20 md:py-28">
+    <section id="comunidad" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading
           title="Propuestas de la comunidad"
@@ -45,7 +53,7 @@ export default function PropuestasComunidad() {
           {FILTERS.map((item) => (
             <button
               key={item}
-              onClick={() => setFilter(item)}
+              onClick={() => selectFilter(item)}
               className={`shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                 filter === item ? 'border-ember bg-ember text-paper' : 'border-paper-line bg-white/50 text-ink/65 hover:border-ember/40'
               }`}
@@ -56,7 +64,7 @@ export default function PropuestasComunidad() {
         </div>
 
         <div ref={listRef} key={filter} data-reveal-group className="mt-8 grid gap-4 sm:grid-cols-2">
-          {filtered.map((proposal) => (
+          {visible.map((proposal) => (
             <div
               data-reveal
               key={proposal.id}
@@ -86,6 +94,18 @@ export default function PropuestasComunidad() {
             </div>
           ))}
         </div>
+
+        {!showAll && filtered.length > VISIBLE_COUNT ? (
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-paper-line bg-white/50 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ember/40 hover:text-ember"
+            >
+              Ver más propuestas
+              <Plus className="size-4" strokeWidth={2.25} />
+            </button>
+          </div>
+        ) : null}
       </Container>
     </section>
   )

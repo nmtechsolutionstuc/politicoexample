@@ -9,7 +9,7 @@ export default function Footer() {
   const colsRef = useScrollReveal<HTMLDivElement>({ y: 16, stagger: 0.06, start: 'top 90%' })
 
   return (
-    <footer className="bg-ink pt-20 text-paper md:pt-24">
+    <footer className="bg-ink pt-14 text-paper md:pt-16">
       <Container>
         <div ref={headRef} className="flex flex-col gap-6 border-b border-paper/10 pb-14 md:flex-row md:items-end md:justify-between">
           <div>

@@ -43,7 +43,7 @@ export default function MapaParticipacion() {
   }, [selected])
 
   return (
-    <section id="mapa" className="bg-paper py-20 md:py-28">
+    <section id="mapa" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading
           title="Mapa de participación"

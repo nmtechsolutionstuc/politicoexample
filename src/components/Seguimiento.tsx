@@ -26,7 +26,7 @@ export default function Seguimiento() {
   }, [selectedId])
 
   return (
-    <section id="seguimiento" className="bg-paper py-20 md:py-28">
+    <section id="seguimiento" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading
           title="Seguimiento de propuestas"

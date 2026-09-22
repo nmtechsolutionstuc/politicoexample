@@ -10,7 +10,7 @@ export default function RedesSociales() {
   const postsRef = useScrollReveal<HTMLDivElement>({ y: 14, stagger: 0.06, start: 'top 88%' })
 
   return (
-    <section id="redes" className="bg-paper py-20 md:py-28">
+    <section id="redes" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading
           title="Redes sociales"

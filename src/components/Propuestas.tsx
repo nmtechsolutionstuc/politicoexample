@@ -76,7 +76,7 @@ export default function Propuestas() {
   const filtered = useMemo(() => (area === 'Todas' ? PROPOSALS : PROPOSALS.filter((p) => p.area === area)), [area])
 
   return (
-    <section id="propuestas" className="bg-paper py-20 md:py-28">
+    <section id="propuestas" className="bg-paper py-14 md:py-20">
       <Container>
         <div ref={headingRef}>
           <SectionHeading

@@ -8,7 +8,7 @@ export default function VisionMisionValores() {
   const valuesRef = useScrollReveal<HTMLDivElement>({ y: 14, stagger: 0.05, start: 'top 88%' })
 
   return (
-    <section id="vision" className="bg-paper py-20 md:py-28">
+    <section id="vision" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Visión, misión y valores" />
 

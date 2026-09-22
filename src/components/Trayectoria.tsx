@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, Plus } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import StatusPill from './StatusPill'
@@ -45,10 +45,21 @@ function TimelineCard({ item, align }: { item: TrajectoryItem; align: 'left' | '
   )
 }
 
+const VISIBLE_COUNT = 4
+
 export default function Trayectoria() {
   const containerRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
   const headingRef = useScrollReveal<HTMLDivElement>()
+  const [showAll, setShowAll] = useState(false)
+  const items = showAll ? TRAJECTORY : TRAJECTORY.slice(0, VISIBLE_COUNT)
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion || !showAll || !containerRef.current) return
+    const extras = containerRef.current.querySelectorAll('[data-extra-item]')
+    gsap.fromTo(extras, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' })
+  }, [showAll])
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -75,7 +86,7 @@ export default function Trayectoria() {
   }, [])
 
   return (
-    <section id="trayectoria" className="bg-paper py-20 md:py-28">
+    <section id="trayectoria" className="bg-paper py-14 md:py-20">
       <Container>
         <div ref={headingRef}>
           <SectionHeading
@@ -97,10 +108,15 @@ export default function Trayectoria() {
           </div>
 
           <div className="space-y-10 md:space-y-14">
-            {TRAJECTORY.map((item, index) => {
+            {items.map((item, index) => {
               const align = index % 2 === 0 ? 'right' : 'left'
+              const isExtra = index >= VISIBLE_COUNT
               return (
-                <div key={item.year + item.title} className="relative pl-11 md:grid md:grid-cols-2 md:gap-10 md:pl-0">
+                <div
+                  key={item.year + item.title}
+                  data-extra-item={isExtra ? true : undefined}
+                  className="relative pl-11 md:grid md:grid-cols-2 md:gap-10 md:pl-0"
+                >
                   <span className="absolute left-2.5 top-7 size-3 -translate-x-1/2 rounded-full border-2 border-ember bg-paper md:left-1/2" />
                   {align === 'right' ? (
                     <>
@@ -118,6 +134,18 @@ export default function Trayectoria() {
             })}
           </div>
         </div>
+
+        {!showAll && TRAJECTORY.length > VISIBLE_COUNT ? (
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-paper-line bg-white/50 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ember/40 hover:text-ember"
+            >
+              Ver toda la trayectoria
+              <Plus className="size-4" strokeWidth={2.25} />
+            </button>
+          </div>
+        ) : null}
       </Container>
     </section>
   )

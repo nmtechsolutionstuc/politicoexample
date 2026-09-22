@@ -19,7 +19,7 @@ export default function QuienSoy() {
   const factsRef = useScrollReveal<HTMLDivElement>({ x: 24, start: 'top 85%' })
 
   return (
-    <section id="quien-soy" className="bg-paper py-20 md:py-28">
+    <section id="quien-soy" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Quién soy" description="Antes de la candidatura, hubo un barrio, una familia y años de trabajo territorial." />
 

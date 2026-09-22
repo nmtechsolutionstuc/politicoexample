@@ -39,7 +39,7 @@ export default function ContameQuePasa() {
   }
 
   return (
-    <section id="contame" className="bg-paper py-20 md:py-28">
+    <section id="contame" className="bg-paper py-14 md:py-20">
       <Container>
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>

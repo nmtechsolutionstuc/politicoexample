@@ -10,7 +10,7 @@ export default function PreguntasRespuestas() {
   const ref = useScrollReveal<HTMLDivElement>({ start: 'top 85%' })
 
   return (
-    <section id="preguntas" className="bg-paper py-20 md:py-28">
+    <section id="preguntas" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Preguntas directas. Respuestas claras." />
 

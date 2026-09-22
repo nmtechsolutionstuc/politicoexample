@@ -16,7 +16,7 @@ export default function Candidatura() {
   const gridRef = useScrollReveal<HTMLDivElement>({ y: 18, stagger: 0.06, start: 'top 85%' })
 
   return (
-    <section id="candidatura" className="bg-paper py-20 md:py-28">
+    <section id="candidatura" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading title="Candidatura" description="La información concreta de a qué se postula Martín, y desde qué espacio." />
 

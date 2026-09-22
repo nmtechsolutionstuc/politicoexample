@@ -19,7 +19,7 @@ export default function Participa() {
   const [featured, ...rest] = PARTICIPATION_OPTIONS
 
   return (
-    <section id="participa" className="bg-paper py-20 md:py-28">
+    <section id="participa" className="bg-paper py-14 md:py-20">
       <Container>
         <SectionHeading
           eyebrow="Una plataforma abierta"
