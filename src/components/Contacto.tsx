@@ -107,7 +107,7 @@ export default function Contacto() {
               <div className="flex h-full flex-col justify-between rounded-3xl border border-paper-line bg-white/50 p-8">
                 <div>
                   <p className="font-display text-lg font-semibold text-ink md:text-xl">
-                    {CONTACT_REASONS.find((r) => r.key === reason)?.helper}
+                    {CONTACT_REASONS.find((r) => r.key === reason)?.label}
                   </p>
                   <p className="mt-3 text-sm leading-relaxed text-ink/65">{redirect.text}</p>
                 </div>

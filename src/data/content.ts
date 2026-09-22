@@ -124,14 +124,7 @@ export const MOTIVATION = {
     'Vi chicos sin oficio y comercios sin gente capacitada para tomar, al mismo tiempo.',
     'Acompañé vecinos que esperaron meses una respuesta simple, por falta de seguimiento.',
   ],
-  priorities: [
-    'La seguridad y el alumbrado en los barrios que quedan lejos del centro.',
-    'El empleo joven y la conexión entre formación y necesidades reales de las empresas locales.',
-    'Que cualquier vecino pueda saber, sin vueltas, qué pasó con lo que reclamó o propuso.',
-  ],
   lessons: 'La gestión se juega en el detalle: un bache, un trámite. La desconfianza nace de la falta de seguimiento, no de mala intención.',
-  publicService: 'Estar disponible, rendir cuentas de lo que se hizo y lo que no, y tratar cada reclamo con la misma seriedad.',
-  whyThisRole: 'El Concejo controla el presupuesto y legisla la vida cotidiana del barrio. Límites claros, impacto real.',
 }
 
 export const CANDIDACY = {
@@ -476,7 +469,7 @@ export const VISION = {
 
 export const MISSION = {
   title: 'Misión',
-  text: 'Desde el Concejo, controlar con seriedad el uso de los recursos municipales, impulsar ordenanzas que resuelvan problemas concretos y sostener canales reales de participación con los vecinos de cada barrio.',
+  text: 'Estar presente en el territorio, escuchar antes de decidir y responder por lo que se hace y lo que no se llega a hacer.',
 }
 
 export interface Value {
