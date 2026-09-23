@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { lazy, Suspense, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ArrowRight } from 'lucide-react'
 import Container from './Container'
@@ -6,6 +6,10 @@ import SocialIcon from './SocialIcon'
 import RevealImage from './RevealImage'
 import Marquee from './Marquee'
 import { useMagnetic } from '../hooks/useMagnetic'
+
+// Three.js is a heavy dependency purely for hero decoration: load it after the
+// critical text/CTAs have already painted instead of blocking first render.
+const ParticleField = lazy(() => import('./ParticleField'))
 import heroPhoto from '../assets/images/politico-4.webp'
 import { PRIORITIES, SITE, SOCIAL_LINKS } from '../data/content'
 
@@ -39,9 +43,15 @@ export default function Hero() {
 
   return (
     <section id="top" ref={scope} className="relative overflow-hidden bg-ink pb-0 pt-24 md:pt-28 lg:pt-32">
+      <Suspense fallback={null}>
+        <ParticleField />
+      </Suspense>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,var(--color-ink)_28%,transparent_60%)]"
+      />
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -right-24 top-10 size-[26rem] rounded-full bg-ember/20 blur-[110px] animate-float-slow" />
-        <div className="absolute -left-16 bottom-0 size-72 rounded-full bg-forest/25 blur-[100px] animate-float-slow [animation-delay:-4s]" />
+        <div className="absolute -left-16 bottom-0 size-72 rounded-full bg-forest/20 blur-[100px] animate-float-slow" />
       </div>
 
       <Container className="relative grid gap-10 pb-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10 lg:pb-16">

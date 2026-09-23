@@ -1,20 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Space Grotesk", "Arial", sans-serif;
+  --font-display: "Bricolage Grotesque", "Arial", sans-serif;
   --font-body: "Public Sans", system-ui, -apple-system, sans-serif;
 
-  --color-ink: #16140f;
-  --color-ink-soft: #221e17;
-  --color-ink-line: #3a352b;
-  --color-paper: #f5f2ea;
-  --color-paper-dim: #e7e0cf;
-  --color-paper-line: #d8cfb8;
-  --color-ember: #d9531e;
-  --color-ember-soft: #f2b591;
-  --color-ember-tint: #fbe6d8;
-  --color-forest: #2f5d46;
-  --color-forest-soft: #cfe0d0;
+  --color-ink: #1a0f14;
+  --color-ink-soft: #241620;
+  --color-ink-line: #4a2f3b;
+  --color-paper: #fbf4e9;
+  --color-paper-dim: #eee1c8;
+  --color-paper-line: #dbc9ae;
+  --color-ember: #e8472f;
+  --color-ember-soft: #f3a98f;
+  --color-ember-tint: #fbe2d8;
+  --color-forest: #21695a;
+  --color-forest-soft: #c9e2da;
+  --color-amber: #f5b942;
+  --color-amber-soft: #fbdca0;
 
   --animate-float-slow: float-slow 9s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 2.6s ease-in-out infinite;
