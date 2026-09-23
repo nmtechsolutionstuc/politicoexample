@@ -4,7 +4,7 @@ import SectionHeading from './SectionHeading'
 import RevealImage from './RevealImage'
 import quienSoyPhoto from '../assets/images/politico-2.webp'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { BIO_PARAGRAPHS, SITE } from '../data/content'
+import { BIO_PARAGRAPHS, MOTIVATION, SITE } from '../data/content'
 
 const FACTS = [
   { icon: MapPin, label: 'Nació y creció en', value: 'Barrio Villa 9 de Julio' },
@@ -17,6 +17,7 @@ const FACTS = [
 export default function QuienSoy() {
   const proseRef = useScrollReveal<HTMLDivElement>({ y: 20, stagger: 0.08 })
   const factsRef = useScrollReveal<HTMLDivElement>({ x: 24, start: 'top 85%' })
+  const motiveRef = useScrollReveal<HTMLDivElement>({ y: 18, stagger: 0.08, start: 'top 88%' })
 
   return (
     <section id="quien-soy" className="bg-paper py-14 md:py-20">
@@ -55,6 +56,24 @@ export default function QuienSoy() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+
+        <div id="por-que" className="mt-14 border-t border-paper-line pt-12">
+          <h3 className="font-display text-2xl font-semibold text-ink md:text-3xl">Por qué me involucré</h3>
+          <p className="mt-4 max-w-2xl font-display text-lg font-medium leading-snug text-ink/85 md:text-xl">{MOTIVATION.intro}</p>
+
+          <div ref={motiveRef} data-reveal-group className="mt-8 grid gap-5 md:grid-cols-3">
+            {MOTIVATION.situations.map((situation) => (
+              <p data-reveal key={situation.slice(0, 20)} className="text-sm leading-relaxed text-ink/70">
+                {situation}
+              </p>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-3xl bg-ink px-7 py-7 text-paper md:px-8">
+            <p className="font-display text-sm font-semibold uppercase tracking-[0.1em] text-ember-soft">Lo que aprendí</p>
+            <p className="mt-3 max-w-3xl text-base leading-relaxed text-paper/80">{MOTIVATION.lessons}</p>
           </div>
         </div>
       </Container>

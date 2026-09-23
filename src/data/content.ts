@@ -79,8 +79,8 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Participación',
     links: [
       { label: 'Participá', href: '#participa' },
-      { label: 'Propuestas de vecinos', href: '#comunidad' },
-      { label: 'Seguimiento', href: '#seguimiento' },
+      { label: 'Contanos una idea o un problema', href: '#contanos' },
+      { label: 'Propuestas y seguimiento', href: '#comunidad' },
       { label: 'Mapa de participación', href: '#mapa' },
       { label: 'Preguntas y respuestas', href: '#preguntas' },
       { label: 'Contacto', href: '#contacto' },
@@ -513,16 +513,10 @@ export interface ParticipationOption {
 
 export const PARTICIPATION_OPTIONS: ParticipationOption[] = [
   {
-    title: 'Proponer una idea',
-    description: 'Compartí una propuesta concreta para tu barrio o para la ciudad.',
+    title: 'Proponer una idea o contar un problema',
+    description: 'Una propuesta para tu barrio, o avisanos sobre calles, alumbrado u otra situación puntual.',
     icon: 'lightbulb',
-    target: '#propone-idea',
-  },
-  {
-    title: 'Contar un problema',
-    description: 'Avisanos sobre calles, alumbrado, limpieza u otra situación puntual.',
-    icon: 'flag',
-    target: '#contame',
+    target: '#contanos',
   },
   {
     title: 'Hacer una consulta',
@@ -757,7 +751,7 @@ export const FAQS: FaqItem[] = [
   {
     question: '¿Qué pasa con las propuestas que envían los vecinos por esta plataforma?',
     answer:
-      'Cada propuesta recibe una respuesta y un estado de seguimiento público. Podés revisar cómo avanzan en la sección "Seguimiento de propuestas".',
+      'Cada propuesta recibe una respuesta y un estado de seguimiento público. Podés revisarlo tocando "Ver seguimiento" en cualquier propuesta de la sección "Propuestas de la comunidad".',
   },
   {
     question: '¿Los apoyos a las propuestas de la comunidad son una encuesta oficial?',
@@ -874,9 +868,8 @@ export interface ContactReason {
 }
 
 export const CONTACT_REASONS: ContactReason[] = [
-  { key: 'propuesta', label: 'Tengo una propuesta', helper: 'Contanos tu idea para el barrio o la ciudad.' },
+  { key: 'propuesta', label: 'Tengo una propuesta o un problema', helper: 'Contanos tu idea o qué está pasando en tu barrio.' },
   { key: 'consulta', label: 'Tengo una consulta', helper: 'Escribinos tu duda y te respondemos a la brevedad.' },
-  { key: 'problema', label: 'Quiero contar un problema', helper: 'Contanos qué está pasando y dónde.' },
   { key: 'reunion', label: 'Quiero solicitar una reunión', helper: 'Indicanos el motivo y tu disponibilidad.' },
   { key: 'prensa', label: 'Prensa', helper: 'Consultas de medios de comunicación.' },
   { key: 'participar', label: 'Quiero participar', helper: 'Contanos cómo te gustaría sumarte.' },

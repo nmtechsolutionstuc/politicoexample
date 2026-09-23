@@ -2,7 +2,7 @@ import { Check, X } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { CANDIDACY } from '../data/content'
+import { CANDIDACY, MISSION, VALUES, VISION } from '../data/content'
 
 const FACTS = [
   { label: 'Cargo', value: CANDIDACY.role },
@@ -61,6 +61,28 @@ export default function Candidatura() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+
+        <div id="vision" className="mt-14 rounded-3xl border border-paper-line bg-white/50 p-7 md:p-8">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <p className="text-sm leading-relaxed text-ink/70">
+              <span className="font-display font-semibold text-ember">{VISION.title}.</span> {VISION.text}
+            </p>
+            <p className="text-sm leading-relaxed text-ink/70">
+              <span className="font-display font-semibold text-ember">{MISSION.title}.</span> {MISSION.text}
+            </p>
+          </div>
+          <div className="mt-6 flex flex-wrap gap-2 border-t border-paper-line pt-5">
+            {VALUES.map((value) => (
+              <span
+                key={value.name}
+                title={value.meaning}
+                className="rounded-full bg-ember-tint px-3 py-1.5 text-xs font-semibold text-ember"
+              >
+                {value.name}
+              </span>
+            ))}
           </div>
         </div>
       </Container>

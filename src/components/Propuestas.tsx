@@ -3,7 +3,7 @@ import { ChevronDown, ListChecks, Gauge, TriangleAlert, Sparkles } from 'lucide-
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import { useScrollReveal } from '../hooks/useScrollReveal'
-import { PROPOSALS, type Proposal } from '../data/content'
+import { PRIORITIES, PROPOSALS, type Proposal } from '../data/content'
 
 const AREAS = ['Todas', ...Array.from(new Set(PROPOSALS.map((p) => p.area)))]
 
@@ -70,6 +70,7 @@ function ProposalItem({ proposal }: { proposal: Proposal }) {
 
 export default function Propuestas() {
   const [area, setArea] = useState('Todas')
+  const [activePriority, setActivePriority] = useState(0)
   const headingRef = useScrollReveal<HTMLDivElement>()
   const listRef = useScrollReveal<HTMLDivElement>({ start: 'top 85%' })
 
@@ -85,7 +86,25 @@ export default function Propuestas() {
           />
         </div>
 
-        <div className="mt-9 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        <div id="prioridades" className="mt-10 rounded-3xl border border-paper-line bg-white/50 p-6 md:p-7">
+          <p className="text-xs font-semibold uppercase tracking-wide text-ink/45">Mis 5 prioridades</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {PRIORITIES.map((priority, index) => (
+              <button
+                key={priority.title}
+                onClick={() => setActivePriority(index)}
+                className={`rounded-full border px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                  activePriority === index ? 'border-ember bg-ember text-paper' : 'border-paper-line bg-white text-ink/65 hover:border-ember/40'
+                }`}
+              >
+                {priority.title}
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 text-sm leading-relaxed text-ink/65">{PRIORITIES[activePriority].detail}</p>
+        </div>
+
+        <div className="mt-8 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {AREAS.map((item) => (
             <button
               key={item}

@@ -26,14 +26,9 @@ const EXTRA_FIELDS: Record<string, ExtraField[]> = {
 
 const REDIRECTS: Record<string, { text: string; href: string; label: string }> = {
   propuesta: {
-    text: 'Para propuestas ciudadanas tenemos un formulario dedicado, con seguimiento público del estado de cada una.',
-    href: '#propone-idea',
-    label: 'Ir a Proponé una idea',
-  },
-  problema: {
-    text: 'Para reportar una situación puntual del barrio tenemos un formulario específico.',
-    href: '#contame',
-    label: 'Ir a Contame qué pasa',
+    text: 'Para propuestas y reportes de barrio tenemos un formulario dedicado, con seguimiento público del estado de cada uno.',
+    href: '#contanos',
+    label: 'Ir a Contanos',
   },
 }
 
