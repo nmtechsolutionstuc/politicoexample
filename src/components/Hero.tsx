@@ -6,7 +6,8 @@ import Container from './Container'
 import SocialIcon from './SocialIcon'
 import { useMagnetic } from '../hooks/useMagnetic'
 import heroPhoto from '../assets/images/politico-4.webp'
-import secondaryPhoto from '../assets/images/politico-2.webp'
+import communityPhoto from '../assets/images/politico-2.webp'
+import territoryPhoto from '../assets/images/politico-1.webp'
 import { SITE, SOCIAL_LINKS } from '../data/content'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -30,9 +31,9 @@ export default function Hero() {
         tl.fromTo('[data-hero-photo]', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 1.2 }, 0.1)
       }
 
-      // A short, self-contained scroll sequence: the wrapper is tall enough to give ~1.6
-      // screens of scroll, the stage stays pinned via CSS `sticky`, and this scrubbed
-      // timeline reorganises the layout once, then releases scroll normally afterwards.
+      // Three short, self-contained states as the wrapper scrolls: (1) clean intro, held for
+      // the first fifth of the scroll, (2) name/CTA recede and a secondary photo + line appear,
+      // (3) that photo and line cross-fade into a territorial beat before scroll releases.
       if (!reduceMotion && wrapRef.current) {
         const seq = gsap.timeline({
           scrollTrigger: {
@@ -43,17 +44,17 @@ export default function Hero() {
           },
         })
         seq
-          .to('[data-hero-headline]', { opacity: 0, y: -26, duration: 1 }, 0.22)
-          .to('[data-hero-cta]', { opacity: 0, y: -12, duration: 0.8 }, 0.22)
-          .to('[data-hero-name]', { scale: 0.72, duration: 1 }, 0.22)
-          .fromTo('[data-hero-script]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 0.42)
-          .fromTo(
-            '[data-hero-secondary]',
-            { opacity: 0, scale: 0.85, rotate: -6, y: 30 },
-            { opacity: 1, scale: 1, rotate: -3, y: 0, duration: 1.1 },
-            0.55,
-          )
-          .to('[data-hero-photo]', { scale: 1.14, duration: 1.6 }, 0)
+          .to('[data-hero-headline]', { opacity: 0, y: -26, duration: 1 }, 0.2)
+          .to('[data-hero-cta]', { opacity: 0, y: -12, duration: 0.8 }, 0.2)
+          .to('[data-hero-name]', { scale: 0.72, duration: 1 }, 0.2)
+          .fromTo('[data-hero-secondary]', { opacity: 0, scale: 0.85, rotate: -6, y: 30 }, { opacity: 1, scale: 1, rotate: -3, y: 0, duration: 1 }, 0.34)
+          .fromTo('[data-hero-script-1]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.9 }, 0.36)
+          .to('[data-hero-script-1]', { opacity: 0, y: -12, duration: 0.7 }, 0.68)
+          .to('[data-hero-img-1]', { opacity: 0, duration: 0.7 }, 0.68)
+          .fromTo('[data-hero-img-2]', { opacity: 0 }, { opacity: 1, duration: 0.7 }, 0.68)
+          .fromTo('[data-hero-script-2]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.8 }, 0.74)
+          .to('[data-hero-secondary]', { rotate: 0, duration: 0.8 }, 0.68)
+          .to('[data-hero-photo]', { scale: 1.14, duration: 1.8 }, 0)
       }
     }, wrapRef)
 
@@ -61,7 +62,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <div ref={wrapRef} id="top" className="relative h-[170vh]">
+    <div ref={wrapRef} id="top" className="relative h-[190vh]">
       <div ref={stageRef} className="sticky top-0 h-[100dvh] overflow-hidden bg-ink">
         <img
           data-hero-photo
@@ -94,19 +95,33 @@ export default function Hero() {
             {SITE.heroStatement}
           </div>
 
-          <p
-            data-hero-script
-            aria-hidden
-            className="pointer-events-none absolute right-6 top-[38%] hidden max-w-xs -rotate-2 font-script text-3xl leading-tight text-paper/90 md:right-16 md:block md:text-4xl"
-          >
-            Antes de hablarte de mis propuestas, quiero contarte quién soy.
-          </p>
+          <div className="pointer-events-none absolute right-6 top-[30%] hidden max-w-xs md:right-16 md:block">
+            <p data-hero-script-1 aria-hidden className="-rotate-2 font-script text-3xl leading-tight text-paper/90 md:text-4xl">
+              Antes de hablarte de mis propuestas, quiero contarte quién soy.
+            </p>
+            <p
+              data-hero-script-2
+              aria-hidden
+              className="absolute inset-x-0 top-0 -rotate-2 font-script text-3xl leading-tight text-paper/90 opacity-0 md:text-4xl"
+            >
+              Diez años caminando el barrio, antes de ser candidato.
+            </p>
+          </div>
 
           <div
             data-hero-secondary
-            className="pointer-events-none absolute right-6 top-[18%] hidden w-40 overflow-hidden rounded-2xl border-4 border-paper shadow-2xl shadow-ink md:right-16 md:block md:w-52"
+            className="pointer-events-none absolute right-6 top-[10%] hidden w-40 overflow-hidden rounded-2xl border-4 border-paper shadow-2xl shadow-ink md:right-16 md:block md:w-52"
           >
-            <img src={secondaryPhoto} alt="" aria-hidden className="aspect-[4/5] w-full object-cover" />
+            <div className="relative aspect-[4/5] w-full">
+              <img data-hero-img-1 src={communityPhoto} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+              <img
+                data-hero-img-2
+                src={territoryPhoto}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover opacity-0"
+              />
+            </div>
           </div>
 
           <div data-hero-in data-hero-cta className="mt-8 flex flex-wrap items-center gap-3">

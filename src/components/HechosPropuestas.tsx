@@ -3,10 +3,21 @@ import { ArrowRight, ChevronDown } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import StatusPill from './StatusPill'
-import { PRIORITIES, PROPOSALS, TRAJECTORY } from '../data/content'
-import achievementPhoto from '../assets/images/politico-1.webp'
+import { PRIORITIES, PROPOSALS, TRAJECTORY, type ProposalArea } from '../data/content'
+import photo1 from '../assets/images/politico-1.webp'
+import photo2 from '../assets/images/politico-2.webp'
+import photo3 from '../assets/images/politico-3.webp'
+import photo4 from '../assets/images/politico-4.webp'
 
 const ACHIEVEMENTS = TRAJECTORY.filter((item) => item.status === 'Finalizado' || item.status === 'En ejecución').slice(-4)
+
+const PRIORITY_IMAGES: Partial<Record<ProposalArea, string>> = {
+  Seguridad: photo4,
+  Empleo: photo2,
+  Infraestructura: photo1,
+  Educación: photo3,
+  Ambiente: photo2,
+}
 
 type Tab = 'hecho' | 'propongo'
 
@@ -15,26 +26,28 @@ function AchievementCard({ item, featured }: { item: (typeof TRAJECTORY)[number]
 
   if (featured) {
     return (
-      <div className="relative col-span-2 overflow-hidden rounded-2xl md:row-span-2">
-        <img src={achievementPhoto} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+      <button onClick={() => setOpen((v) => !v)} className="relative overflow-hidden rounded-2xl text-left">
+        <img src={photo1} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/10" />
-        <div className="relative flex h-full min-h-64 flex-col justify-end p-6">
+        <div className="relative flex h-full min-h-80 flex-col justify-end p-6 md:min-h-[26rem]">
           <span className="font-display text-sm font-semibold text-paper/60">{item.year}</span>
-          <h4 className="mt-1 font-display text-xl font-semibold text-paper">{item.title}</h4>
-          <p className="mt-2 text-sm leading-relaxed text-paper/75">{item.description}</p>
-          <div className="mt-3">
+          <h4 className="mt-1 font-display text-xl font-semibold text-paper md:text-2xl">{item.title}</h4>
+          <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/75">{item.description}</p>
+          <div className="mt-3 flex items-center gap-3">
             <StatusPill status={item.status} />
+            <span className="inline-flex items-center gap-1 text-xs font-semibold text-paper/60">
+              {open ? 'Ver menos' : 'Ver detalle'}
+              <ChevronDown className={`size-3.5 transition-transform ${open ? 'rotate-180' : ''}`} strokeWidth={2.5} />
+            </span>
           </div>
+          {open ? <p className="mt-3 max-w-md border-t border-paper/15 pt-3 text-sm leading-relaxed text-paper/80">{item.detail}</p> : null}
         </div>
-      </div>
+      </button>
     )
   }
 
   return (
-    <button
-      onClick={() => setOpen((v) => !v)}
-      className="flex flex-col rounded-2xl border border-paper/10 bg-paper/[0.04] p-5 text-left transition-colors hover:bg-paper/[0.07]"
-    >
+    <button onClick={() => setOpen((v) => !v)} className="flex flex-col border-t border-paper/10 pt-4 text-left first:border-t-0 first:pt-0">
       <div className="flex items-start justify-between gap-3">
         <span className="font-display text-sm font-semibold text-ember">{item.year}</span>
         <StatusPill status={item.status} />
@@ -50,75 +63,144 @@ function AchievementCard({ item, featured }: { item: (typeof TRAJECTORY)[number]
   )
 }
 
-function PriorityPanel({
-  priority,
-  isActive,
-  onSelect,
-}: {
-  priority: (typeof PRIORITIES)[number]
-  isActive: boolean
-  onSelect: () => void
-}) {
-  const proposal = useMemo(() => PROPOSALS.find((p) => p.area === priority.area), [priority.area])
+const FEATURED_TITLES = new Set(PRIORITIES.map((p) => p.area))
+const MORE_PROPOSALS = PROPOSALS.filter(
+  (proposal, index) => !(FEATURED_TITLES.has(proposal.area) && PROPOSALS.findIndex((p) => p.area === proposal.area) === index),
+)
+
+function PropongoView() {
+  const [activeArea, setActiveArea] = useState(PRIORITIES[0].area)
+  const [showDepth, setShowDepth] = useState(false)
+  const [showMore, setShowMore] = useState(false)
+
+  const priority = PRIORITIES.find((p) => p.area === activeArea)!
+  const proposal = useMemo(() => PROPOSALS.find((p) => p.area === activeArea), [activeArea])
+  const image = PRIORITY_IMAGES[activeArea]
+
+  function selectArea(area: ProposalArea) {
+    setActiveArea(area)
+    setShowDepth(false)
+  }
 
   return (
-    <div
-      className={`overflow-hidden rounded-2xl border transition-colors ${
-        isActive ? 'border-ember/40 bg-paper/[0.06]' : 'border-paper/10 bg-paper/[0.03]'
-      }`}
-    >
-      <button onClick={onSelect} className="flex w-full items-center justify-between gap-4 p-5 text-left">
-        <div>
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{priority.area}</span>
-          <h4 className="mt-1 font-display text-lg font-semibold text-paper">{priority.title}</h4>
-          <p className="mt-1 text-sm text-paper/65">{priority.summary}</p>
+    <div className="mt-12">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.32fr)_minmax(0,0.68fr)] lg:gap-8">
+        <div className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
+          {PRIORITIES.map((p) => {
+            const isActive = p.area === activeArea
+            return (
+              <button
+                key={p.area}
+                onClick={() => selectArea(p.area)}
+                className={`shrink-0 rounded-xl border px-4 py-3 text-left transition-colors lg:shrink ${
+                  isActive ? 'border-ember/50 bg-paper/[0.08] text-paper' : 'border-paper/10 text-paper/55 hover:border-paper/25'
+                }`}
+              >
+                <span className={`text-[11px] font-semibold uppercase tracking-[0.12em] ${isActive ? 'text-ember' : 'text-paper/40'}`}>
+                  {p.area}
+                </span>
+                <p className="mt-0.5 whitespace-nowrap font-display text-sm font-semibold lg:whitespace-normal">{p.title}</p>
+              </button>
+            )
+          })}
         </div>
-        <ChevronDown className={`size-5 shrink-0 text-paper/50 transition-transform ${isActive ? 'rotate-180' : ''}`} strokeWidth={2.25} />
+
+        <div className="relative overflow-hidden rounded-2xl">
+          {image ? (
+            <div className="relative h-48 sm:h-64">
+              <img key={image} src={image} alt="" aria-hidden className="absolute inset-0 h-full w-full animate-fade-in object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+            </div>
+          ) : null}
+
+          <div className="bg-paper/[0.04] p-6 md:p-7">
+            <h4 key={priority.title} className="animate-fade-in font-display text-2xl font-semibold text-paper">
+              {priority.title}
+            </h4>
+            <p className="mt-2 max-w-lg text-sm leading-relaxed text-paper/70 md:text-base">{priority.summary}</p>
+
+            {proposal ? (
+              <div className="mt-5 space-y-4 border-t border-paper/10 pt-5">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">El problema</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.problem}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">La propuesta</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.proposal}</p>
+                </div>
+
+                <button
+                  onClick={() => setShowDepth((v) => !v)}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-paper/50 hover:text-paper/80"
+                >
+                  {showDepth ? 'Ocultar implementación y medición' : 'Ver implementación y medición'}
+                  <ChevronDown className={`size-3.5 transition-transform ${showDepth ? 'rotate-180' : ''}`} strokeWidth={2.5} />
+                </button>
+
+                {showDepth ? (
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">Cómo se implementa</p>
+                      <ul className="mt-1.5 space-y-1">
+                        {proposal.implementation.map((line) => (
+                          <li key={line} className="text-sm leading-relaxed text-paper/70">
+                            · {line}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">Cómo se mide</p>
+                      <ul className="mt-1.5 space-y-1">
+                        {proposal.measurement.map((line) => (
+                          <li key={line} className="text-sm leading-relaxed text-paper/70">
+                            · {line}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <button
+        onClick={() => setShowMore((v) => !v)}
+        className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-paper/70 transition-colors hover:text-paper"
+      >
+        {showMore ? 'Ver menos propuestas' : 'Ver todas las propuestas'}
+        <ArrowRight className={`size-4 transition-transform ${showMore ? '-rotate-90' : ''}`} strokeWidth={2.25} />
       </button>
 
-      {isActive && proposal ? (
-        <div className="grid gap-5 border-t border-paper/10 p-5 pt-5 sm:grid-cols-3">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">El problema</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.problem}</p>
-          </div>
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">La propuesta</p>
-            <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.proposal}</p>
-          </div>
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">Cómo se mide</p>
-            <ul className="mt-1.5 space-y-1">
-              {proposal.measurement.map((line) => (
-                <li key={line} className="text-sm leading-relaxed text-paper/75">
-                  · {line}
-                </li>
-              ))}
-            </ul>
-          </div>
+      {showMore ? (
+        <div className="mt-4 grid gap-3 border-t border-paper/10 pt-5 sm:grid-cols-2">
+          {MORE_PROPOSALS.map((p) => (
+            <div key={p.title} className="rounded-xl border border-paper/10 bg-paper/[0.03] p-4">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{p.area}</span>
+              <h5 className="mt-1 font-display text-sm font-semibold text-paper">{p.title}</h5>
+              <p className="mt-1 text-sm leading-relaxed text-paper/60">{p.proposal}</p>
+            </div>
+          ))}
         </div>
       ) : null}
     </div>
   )
 }
 
-const FEATURED_TITLES = new Set(PRIORITIES.map((p) => p.area))
-const MORE_PROPOSALS = PROPOSALS.filter(
-  (proposal, index) => !(FEATURED_TITLES.has(proposal.area) && PROPOSALS.findIndex((p) => p.area === proposal.area) === index),
-)
-
 export default function HechosPropuestas() {
   const [tab, setTab] = useState<Tab>('hecho')
-  const [activeArea, setActiveArea] = useState<string | null>(PRIORITIES[0]?.area ?? null)
-  const [showMore, setShowMore] = useState(false)
 
   return (
-    <section id="propuestas" className="bg-ink py-20 md:py-28">
+    <section id="propuestas" className={`py-20 transition-colors duration-700 md:py-28 ${tab === 'hecho' ? 'bg-ink' : 'bg-ink-soft'}`}>
       <Container>
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <SectionHeading
             eyebrow="02 · PROPUESTAS"
-            title="Soluciones reales para una ciudad mejor"
+            title={tab === 'hecho' ? 'Lo que ya se hizo' : 'Lo que propongo para la ciudad'}
             tone="dark"
           />
 
@@ -143,42 +225,16 @@ export default function HechosPropuestas() {
         </div>
 
         {tab === 'hecho' ? (
-          <div className="mt-12 grid gap-4 md:grid-cols-3">
-            {ACHIEVEMENTS.map((item, index) => (
-              <AchievementCard key={item.year + item.title} item={item} featured={index === 0} />
-            ))}
+          <div className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_1fr] lg:gap-10">
+            <AchievementCard item={ACHIEVEMENTS[0]} featured />
+            <div className="flex flex-col gap-4">
+              {ACHIEVEMENTS.slice(1).map((item) => (
+                <AchievementCard key={item.year + item.title} item={item} featured={false} />
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="mt-12 flex flex-col gap-4">
-            {PRIORITIES.map((priority) => (
-              <PriorityPanel
-                key={priority.area}
-                priority={priority}
-                isActive={activeArea === priority.area}
-                onSelect={() => setActiveArea((current) => (current === priority.area ? null : priority.area))}
-              />
-            ))}
-
-            <button
-              onClick={() => setShowMore((v) => !v)}
-              className="mt-2 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-paper/70 transition-colors hover:text-paper"
-            >
-              {showMore ? 'Ver menos propuestas' : 'Ver todas las propuestas'}
-              <ArrowRight className={`size-4 transition-transform ${showMore ? '-rotate-90' : ''}`} strokeWidth={2.25} />
-            </button>
-
-            {showMore ? (
-              <div className="grid gap-3 border-t border-paper/10 pt-5 sm:grid-cols-2">
-                {MORE_PROPOSALS.map((proposal) => (
-                  <div key={proposal.title} className="rounded-xl border border-paper/10 bg-paper/[0.03] p-4">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{proposal.area}</span>
-                    <h5 className="mt-1 font-display text-sm font-semibold text-paper">{proposal.title}</h5>
-                    <p className="mt-1 text-sm leading-relaxed text-paper/60">{proposal.proposal}</p>
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
+          <PropongoView />
         )}
       </Container>
     </section>

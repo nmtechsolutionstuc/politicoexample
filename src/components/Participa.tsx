@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Flag, Heart, Lightbulb, MessageCircleQuestion, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, ChevronRight, Flag, Heart, Lightbulb, MessageCircleQuestion, Users } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import StatusPill from './StatusPill'
@@ -41,11 +41,11 @@ function FlowForm({ flow, onDone }: { flow: ParticipateFlow; onDone: () => void 
 
       <div className="mt-3 flex gap-1.5">
         {flow.steps.map((s, i) => (
-          <span key={s.key} className={`h-1 flex-1 rounded-full ${i <= stepIndex ? 'bg-ember' : 'bg-paper-line'}`} />
+          <span key={s.key} className={`h-1 flex-1 rounded-full transition-colors ${i <= stepIndex ? 'bg-ember' : 'bg-paper-line'}`} />
         ))}
       </div>
 
-      <div className="mt-6">
+      <div key={step.key} className="mt-6 animate-fade-in">
         <Field label={step.label} htmlFor={step.key} required={!step.optional}>
           {step.type === 'pills' ? (
             <div className="flex flex-wrap gap-2">
@@ -109,18 +109,18 @@ function FlowForm({ flow, onDone }: { flow: ParticipateFlow; onDone: () => void 
   )
 }
 
-function CommunityCard({ proposal }: { proposal: (typeof COMMUNITY_PROPOSALS)[number] }) {
+function CommunityRow({ proposal }: { proposal: (typeof COMMUNITY_PROPOSALS)[number] }) {
   const [supports, setSupports] = useState(proposal.supports)
   const [supported, setSupported] = useState(false)
 
   return (
-    <div className="flex flex-col rounded-2xl border border-paper-line bg-white p-5">
+    <div className="border-t border-paper-line py-5 first:border-t-0 first:pt-0">
       <div className="flex items-start justify-between gap-3">
         <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{proposal.category}</span>
         <StatusPill status={proposal.status} />
       </div>
       <h4 className="mt-2 font-display text-base font-semibold text-ink">{proposal.title}</h4>
-      <p className="mt-1 text-sm text-ink/60">{proposal.neighborhood}</p>
+      <p className="mt-1 text-sm text-ink/55">{proposal.neighborhood}</p>
       <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/60">{proposal.description}</p>
       <button
         onClick={() => {
@@ -128,8 +128,8 @@ function CommunityCard({ proposal }: { proposal: (typeof COMMUNITY_PROPOSALS)[nu
           setSupported(true)
           setSupports((s) => s + 1)
         }}
-        className={`mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
-          supported ? 'border-ember/40 bg-ember-tint text-ember' : 'border-paper-line text-ink/60 hover:border-ink/30'
+        className={`mt-3 inline-flex items-center gap-1.5 text-xs font-semibold transition-colors ${
+          supported ? 'text-ember' : 'text-ink/50 hover:text-ink'
         }`}
       >
         <Heart className="size-3.5" strokeWidth={2.25} fill={supported ? 'currentColor' : 'none'} />
@@ -142,54 +142,59 @@ function CommunityCard({ proposal }: { proposal: (typeof COMMUNITY_PROPOSALS)[nu
 export default function Participa() {
   const [activeFlow, setActiveFlow] = useState<ParticipateFlow | null>(null)
   const [showAllCommunity, setShowAllCommunity] = useState(false)
-  const visibleProposals = showAllCommunity ? COMMUNITY_PROPOSALS : COMMUNITY_PROPOSALS.slice(0, 3)
+  const visibleProposals = showAllCommunity ? COMMUNITY_PROPOSALS : COMMUNITY_PROPOSALS.slice(0, 2)
 
   return (
     <section id="participa" className="bg-paper-dim py-20 md:py-28">
       <Container>
         <SectionHeading eyebrow="03 · PARTICIPÁ" title="Tu voz también cuenta" />
 
-        <div className="mt-10">
-          {activeFlow ? (
-            <div className="mx-auto max-w-xl">
-              <FlowForm flow={activeFlow} onDone={() => setActiveFlow(null)} />
-            </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {PARTICIPATE_FLOWS.map((flow) => {
-                const Icon = FLOW_ICONS[flow.icon]
-                return (
-                  <button
-                    key={flow.key}
-                    onClick={() => setActiveFlow(flow)}
-                    className="flex flex-col items-start rounded-2xl border border-paper-line bg-white p-5 text-left transition-colors hover:border-ink/25"
-                  >
-                    <span className="flex size-10 items-center justify-center rounded-full bg-ember-tint text-ember">
-                      <Icon className="size-5" strokeWidth={2} />
-                    </span>
-                    <h4 className="mt-3 font-display text-base font-semibold text-ink">{flow.title}</h4>
-                    <p className="mt-1 text-sm leading-relaxed text-ink/60">{flow.description}</p>
-                  </button>
-                )
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="mt-16">
-          <div className="flex items-center justify-between">
-            <h3 className="font-display text-lg font-semibold text-ink">Ideas de la comunidad</h3>
-            <button
-              onClick={() => setShowAllCommunity((v) => !v)}
-              className="text-sm font-semibold text-ink/60 transition-colors hover:text-ink"
-            >
-              {showAllCommunity ? 'Ver menos' : 'Ver todas'}
-            </button>
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start lg:gap-14">
+          <div>
+            {activeFlow ? (
+              <div key={activeFlow.key} className="animate-fade-in">
+                <FlowForm flow={activeFlow} onDone={() => setActiveFlow(null)} />
+              </div>
+            ) : (
+              <div className="flex flex-col overflow-hidden rounded-3xl border border-paper-line bg-white">
+                {PARTICIPATE_FLOWS.map((flow) => {
+                  const Icon = FLOW_ICONS[flow.icon]
+                  return (
+                    <button
+                      key={flow.key}
+                      onClick={() => setActiveFlow(flow)}
+                      className="group flex items-center gap-4 border-t border-paper-line px-5 py-5 text-left transition-colors first:border-t-0 hover:bg-paper-dim"
+                    >
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ember-tint text-ember transition-transform group-hover:scale-105">
+                        <Icon className="size-5" strokeWidth={2} />
+                      </span>
+                      <div className="flex-1">
+                        <h4 className="font-display text-base font-semibold text-ink">{flow.title}</h4>
+                        <p className="mt-0.5 text-sm leading-relaxed text-ink/60">{flow.description}</p>
+                      </div>
+                      <ChevronRight className="size-5 shrink-0 text-ink/30 transition-transform group-hover:translate-x-0.5 group-hover:text-ink/60" strokeWidth={2} />
+                    </button>
+                  )
+                })}
+              </div>
+            )}
           </div>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleProposals.map((proposal) => (
-              <CommunityCard key={proposal.id} proposal={proposal} />
-            ))}
+
+          <div>
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-lg font-semibold text-ink">Ideas de la comunidad</h3>
+              <button
+                onClick={() => setShowAllCommunity((v) => !v)}
+                className="text-sm font-semibold text-ink/60 transition-colors hover:text-ink"
+              >
+                {showAllCommunity ? 'Ver menos' : 'Ver todas'}
+              </button>
+            </div>
+            <div className="mt-2">
+              {visibleProposals.map((proposal) => (
+                <CommunityRow key={proposal.id} proposal={proposal} />
+              ))}
+            </div>
           </div>
         </div>
       </Container>
