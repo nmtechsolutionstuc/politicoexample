@@ -6,16 +6,13 @@ import Nav from './components/Nav.tsx'
 import Hero from './components/Hero.tsx'
 import Stats from './components/Stats.tsx'
 import QuienSoy from './components/QuienSoy.tsx'
-import Candidatura from './components/Candidatura.tsx'
 import Trayectoria from './components/Trayectoria.tsx'
 import Propuestas from './components/Propuestas.tsx'
 import Participa from './components/Participa.tsx'
 import PropuestasComunidad from './components/PropuestasComunidad.tsx'
-import MapaParticipacion from './components/MapaParticipacion.tsx'
 import AgendaPublica from './components/AgendaPublica.tsx'
 import PreguntasRespuestas from './components/PreguntasRespuestas.tsx'
 import RedesSociales from './components/RedesSociales.tsx'
-import Prensa from './components/Prensa.tsx'
 import Contacto from './components/Contacto.tsx'
 import Footer from './components/Footer.tsx'
 import AdminPanel from './components/AdminPanel.tsx'
@@ -67,16 +64,13 @@ function App() {
             <Hero />
             <Stats />
             <QuienSoy />
-            <Candidatura />
             <Trayectoria />
             <Propuestas />
             <Participa />
             <PropuestasComunidad />
-            <MapaParticipacion />
             <AgendaPublica />
             <PreguntasRespuestas />
             <RedesSociales />
-            <Prensa />
             <Contacto />
           </>
         )}

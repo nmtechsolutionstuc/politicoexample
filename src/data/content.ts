@@ -55,9 +55,7 @@ export const NAV_GROUPS: NavGroup[] = [
     links: [
       { label: 'Quién soy', href: '#quien-soy' },
       { label: 'Por qué me involucré', href: '#por-que' },
-      { label: 'Candidatura', href: '#candidatura' },
       { label: 'Trayectoria', href: '#trayectoria' },
-      { label: 'Visión y valores', href: '#vision' },
     ],
   },
   {
@@ -72,7 +70,6 @@ export const NAV_GROUPS: NavGroup[] = [
     links: [
       { label: 'Documentos y actividad', href: '#/transparencia' },
       { label: 'Agenda pública', href: '#agenda' },
-      { label: 'Prensa', href: '#prensa' },
     ],
   },
   {
@@ -80,7 +77,6 @@ export const NAV_GROUPS: NavGroup[] = [
     links: [
       { label: 'Participá', href: '#participa' },
       { label: 'Propuestas y seguimiento', href: '#comunidad' },
-      { label: 'Mapa de participación', href: '#mapa' },
       { label: 'Preguntas y respuestas', href: '#preguntas' },
       { label: 'Contacto', href: '#contacto' },
     ],
@@ -124,27 +120,6 @@ export const MOTIVATION = {
     'Acompañé vecinos que esperaron meses una respuesta simple, por falta de seguimiento.',
   ],
   lessons: 'La gestión se juega en el detalle: un bache, un trámite. La desconfianza nace de la falta de seguimiento, no de mala intención.',
-}
-
-export const CANDIDACY = {
-  role: 'Concejal',
-  district: 'San Miguel de Tucumán',
-  party: 'Frente Ciudadano',
-  listNumber: 'Lista 504',
-  period: 'Elecciones municipales 2027',
-  councilFunctions: [
-    'Sancionar ordenanzas: las normas que regulan la vida cotidiana del municipio (tránsito, uso del suelo, comercio, espacio público, entre otras).',
-    'Aprobar el presupuesto municipal y controlar cómo se ejecuta durante el año.',
-    'Controlar los actos del Departamento Ejecutivo municipal (el intendente y su gabinete), pidiendo informes y explicaciones.',
-    'Habilitar y regular la actividad comercial, la obra privada y el uso de los espacios públicos dentro del ejido municipal.',
-    'Recibir y canalizar formalmente los reclamos e iniciativas de los vecinos hacia las áreas correspondientes.',
-  ],
-  councilLimits: [
-    'Un concejal no maneja directamente la policía provincial ni las fuerzas de seguridad, que dependen del gobierno provincial.',
-    'No dicta leyes provinciales o nacionales: su competencia es exclusivamente municipal.',
-    'No administra hospitales públicos ni escuelas, que en general dependen de la provincia.',
-    'No ejecuta obras por sí mismo: puede impulsarlas, priorizarlas y controlarlas, pero la ejecución depende del Ejecutivo municipal.',
-  ],
 }
 
 export type TrajectoryStatus = 'Presentado' | 'En análisis' | 'Aprobado' | 'En ejecución' | 'Finalizado'
@@ -461,48 +436,6 @@ export const PRIORITIES: Priority[] = [
   },
 ]
 
-export const VISION = {
-  title: 'Visión',
-  text: 'Una San Miguel de Tucumán donde vivir lejos del centro no signifique menos alumbrado, menos transporte y menos oportunidades. Una ciudad que se gestiona mirando el detalle de cada barrio.',
-}
-
-export const MISSION = {
-  title: 'Misión',
-  text: 'Estar presente en el territorio, escuchar antes de decidir y responder por lo que se hace y lo que no se llega a hacer.',
-}
-
-export interface Value {
-  name: string
-  meaning: string
-}
-
-export const VALUES: Value[] = [
-  {
-    name: 'Transparencia',
-    meaning: 'Publicar lo que se hace, lo que no se pudo hacer y por qué, sin maquillar la información.',
-  },
-  {
-    name: 'Responsabilidad',
-    meaning: 'Comprometerme solamente con lo que un concejal puede efectivamente impulsar o controlar.',
-  },
-  {
-    name: 'Diálogo',
-    meaning: 'Escuchar primero, incluso cuando el reclamo es directamente hacia mi gestión.',
-  },
-  {
-    name: 'Trabajo',
-    meaning: 'Estar en el territorio de forma sostenida, no solamente en épocas de campaña.',
-  },
-  {
-    name: 'Respeto',
-    meaning: 'Discutir ideas sin descalificar a quien piensa distinto, dentro o fuera de mi espacio político.',
-  },
-  {
-    name: 'Cercanía',
-    meaning: 'Que cualquier vecino tenga una forma simple y real de comunicarse conmigo.',
-  },
-]
-
 export interface ParticipationOption {
   title: string
   description: string
@@ -659,23 +592,6 @@ export const REPORT_CATEGORIES = [
   'Otros',
 ] as const
 
-export interface MapZone {
-  neighborhood: string
-  participations: number
-  topTopics: string[]
-}
-
-export const MAP_ZONES: MapZone[] = [
-  { neighborhood: 'Barrio Norte', participations: 27, topTopics: ['Transporte', 'Espacios públicos', 'Seguridad'] },
-  { neighborhood: 'Centro', participations: 43, topTopics: ['Infraestructura', 'Otro', 'Transporte'] },
-  { neighborhood: 'Villa 9 de Julio', participations: 61, topTopics: ['Seguridad', 'Alumbrado', 'Empleo'] },
-  { neighborhood: 'Villa Alem', participations: 34, topTopics: ['Espacios públicos', 'Limpieza'] },
-  { neighborhood: 'Barrio Sur', participations: 22, topTopics: ['Ambiente', 'Limpieza'] },
-  { neighborhood: 'Villa Amalia', participations: 18, topTopics: ['Educación', 'Salud'] },
-  { neighborhood: 'Barrio Echeverría', participations: 15, topTopics: ['Calles', 'Alumbrado'] },
-  { neighborhood: 'San Cayetano', participations: 12, topTopics: ['Transporte', 'Seguridad'] },
-]
-
 export interface AgendaEvent {
   title: string
   date: string
@@ -740,7 +656,7 @@ export const FAQS: FaqItem[] = [
   {
     question: '¿Qué puede hacer realmente un concejal y qué no?',
     answer:
-      'Puede sancionar ordenanzas, aprobar y controlar el presupuesto municipal, y controlar al Ejecutivo. No maneja la policía provincial ni dicta leyes provinciales o nacionales. Podés ver el detalle completo en la sección Candidatura.',
+      'Puede sancionar ordenanzas, aprobar y controlar el presupuesto municipal, y controlar al Ejecutivo. No maneja la policía provincial ni dicta leyes provinciales o nacionales: esas dependen de la provincia.',
   },
   {
     question: '¿Cómo se financia el programa Oficio Tucumán?',
