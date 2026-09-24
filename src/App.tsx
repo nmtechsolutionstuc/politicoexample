@@ -10,28 +10,30 @@ import Candidatura from './components/Candidatura.tsx'
 import Trayectoria from './components/Trayectoria.tsx'
 import Propuestas from './components/Propuestas.tsx'
 import Participa from './components/Participa.tsx'
-import Contanos from './components/Contanos.tsx'
 import PropuestasComunidad from './components/PropuestasComunidad.tsx'
 import MapaParticipacion from './components/MapaParticipacion.tsx'
 import AgendaPublica from './components/AgendaPublica.tsx'
 import PreguntasRespuestas from './components/PreguntasRespuestas.tsx'
 import RedesSociales from './components/RedesSociales.tsx'
 import Prensa from './components/Prensa.tsx'
-import Transparencia from './components/Transparencia.tsx'
 import Contacto from './components/Contacto.tsx'
 import Footer from './components/Footer.tsx'
 import AdminPanel from './components/AdminPanel.tsx'
+import TransparenciaPage from './components/TransparenciaPage.tsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function App() {
-  const [isPanel, setIsPanel] = useState(() => window.location.hash.startsWith('#/panel'))
+  const [hash, setHash] = useState(() => window.location.hash)
 
   useEffect(() => {
-    const onHashChange = () => setIsPanel(window.location.hash.startsWith('#/panel'))
+    const onHashChange = () => setHash(window.location.hash)
     window.addEventListener('hashchange', onHashChange)
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
+
+  const isPanel = hash.startsWith('#/panel')
+  const isTransparencia = hash.startsWith('#/transparencia')
 
   useEffect(() => {
     // Web fonts, lazy images and accordions all change the page height after GSAP's
@@ -49,7 +51,7 @@ function App() {
       observer.disconnect()
       cancelAnimationFrame(frame)
     }
-  }, [isPanel])
+  }, [hash])
 
   if (isPanel) return <AdminPanel />
 
@@ -58,22 +60,26 @@ function App() {
       <ScrollProgress />
       <Nav />
       <main>
-        <Hero />
-        <Stats />
-        <QuienSoy />
-        <Candidatura />
-        <Trayectoria />
-        <Propuestas />
-        <Participa />
-        <Contanos />
-        <PropuestasComunidad />
-        <MapaParticipacion />
-        <AgendaPublica />
-        <PreguntasRespuestas />
-        <RedesSociales />
-        <Prensa />
-        <Transparencia />
-        <Contacto />
+        {isTransparencia ? (
+          <TransparenciaPage />
+        ) : (
+          <>
+            <Hero />
+            <Stats />
+            <QuienSoy />
+            <Candidatura />
+            <Trayectoria />
+            <Propuestas />
+            <Participa />
+            <PropuestasComunidad />
+            <MapaParticipacion />
+            <AgendaPublica />
+            <PreguntasRespuestas />
+            <RedesSociales />
+            <Prensa />
+            <Contacto />
+          </>
+        )}
       </main>
       <Footer />
     </div>

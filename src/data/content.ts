@@ -70,7 +70,7 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Transparencia',
     links: [
-      { label: 'Documentos y actividad', href: '#transparencia' },
+      { label: 'Documentos y actividad', href: '#/transparencia' },
       { label: 'Agenda pública', href: '#agenda' },
       { label: 'Prensa', href: '#prensa' },
     ],
@@ -79,7 +79,6 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Participación',
     links: [
       { label: 'Participá', href: '#participa' },
-      { label: 'Contanos una idea o un problema', href: '#contanos' },
       { label: 'Propuestas y seguimiento', href: '#comunidad' },
       { label: 'Mapa de participación', href: '#mapa' },
       { label: 'Preguntas y respuestas', href: '#preguntas' },
@@ -516,7 +515,7 @@ export const PARTICIPATION_OPTIONS: ParticipationOption[] = [
     title: 'Proponer una idea o contar un problema',
     description: 'Una propuesta para tu barrio, o avisanos sobre calles, alumbrado u otra situación puntual.',
     icon: 'lightbulb',
-    target: '#contanos',
+    target: '#contacto',
   },
   {
     title: 'Hacer una consulta',

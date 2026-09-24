@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-import { gsap } from 'gsap'
-import { FileText, ClipboardList, ShieldCheck, ExternalLink, ArrowUpRight, Plus } from 'lucide-react'
+import { ArrowLeft, FileText, ClipboardList, ShieldCheck, ExternalLink, ArrowUpRight } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import { useScrollReveal } from '../hooks/useScrollReveal'
@@ -13,24 +11,17 @@ const TYPE_ICON: Record<TransparencyDoc['type'], typeof FileText> = {
   'Enlace oficial': ExternalLink,
 }
 
-const VISIBLE_COUNT = 4
-
-export default function Transparencia() {
+export default function TransparenciaPage() {
   const ref = useScrollReveal<HTMLDivElement>({ y: 12, stagger: 0.05, start: 'top 85%' })
-  const [showAll, setShowAll] = useState(false)
-  const docs = showAll ? TRANSPARENCY_DOCS : TRANSPARENCY_DOCS.slice(0, VISIBLE_COUNT)
-
-  useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduceMotion || !showAll || !ref.current) return
-    const extras = ref.current.querySelectorAll('[data-extra-item]')
-    gsap.fromTo(extras, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: 'power3.out' })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showAll])
 
   return (
-    <section id="transparencia" className="bg-paper py-14 md:py-20">
+    <section id="transparencia" className="bg-paper py-16 md:py-24">
       <Container>
+        <a href="#top" className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-ink/60 hover:text-ember">
+          <ArrowLeft className="size-4" strokeWidth={2.25} />
+          Volver al inicio
+        </a>
+
         <SectionHeading
           eyebrow="Todo a la vista"
           title="Transparencia"
@@ -38,12 +29,11 @@ export default function Transparencia() {
         />
 
         <div ref={ref} data-reveal-group className="mt-11 divide-y divide-paper-line rounded-3xl border border-paper-line bg-white/50">
-          {docs.map((doc, index) => {
+          {TRANSPARENCY_DOCS.map((doc) => {
             const Icon = TYPE_ICON[doc.type]
             return (
               <a
                 data-reveal
-                data-extra-item={index >= VISIBLE_COUNT ? true : undefined}
                 key={doc.title}
                 href="#"
                 className="group flex items-center gap-4 px-5 py-5 transition-colors hover:bg-ember-tint/30 md:px-7"
@@ -64,18 +54,6 @@ export default function Transparencia() {
             )
           })}
         </div>
-
-        {!showAll && TRANSPARENCY_DOCS.length > VISIBLE_COUNT ? (
-          <div className="mt-8 flex justify-center">
-            <button
-              onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 rounded-full border border-paper-line bg-white/50 px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-ember/40 hover:text-ember"
-            >
-              Ver todos los documentos
-              <Plus className="size-4" strokeWidth={2.25} />
-            </button>
-          </div>
-        ) : null}
       </Container>
     </section>
   )

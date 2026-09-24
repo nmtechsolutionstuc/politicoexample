@@ -1,5 +1,5 @@
 import { type FormEvent, useState } from 'react'
-import { Mail, MessageCircle, ArrowRight } from 'lucide-react'
+import { Mail, MessageCircle } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
 import SocialIcon from './SocialIcon'
@@ -9,6 +9,15 @@ import { CONTACT, CONTACT_REASONS, SOCIAL_LINKS } from '../data/content'
 type ExtraField = { key: string; label: string; type: 'text' | 'textarea'; placeholder?: string }
 
 const EXTRA_FIELDS: Record<string, ExtraField[]> = {
+  propuesta: [
+    { key: 'neighborhood', label: 'Barrio o localidad', type: 'text', placeholder: 'Ej. Villa 9 de Julio' },
+    {
+      key: 'message',
+      label: 'Tu propuesta o el problema que querés contarnos',
+      type: 'textarea',
+      placeholder: 'Contanos con el mayor detalle posible.',
+    },
+  ],
   consulta: [{ key: 'message', label: 'Tu consulta', type: 'textarea', placeholder: 'Contanos tu duda.' }],
   reunion: [
     { key: 'motive', label: 'Motivo de la reunión', type: 'text', placeholder: 'Ej. Proyecto de espacios verdes' },
@@ -24,14 +33,6 @@ const EXTRA_FIELDS: Record<string, ExtraField[]> = {
   otro: [{ key: 'message', label: 'Contanos el motivo', type: 'textarea' }],
 }
 
-const REDIRECTS: Record<string, { text: string; href: string; label: string }> = {
-  propuesta: {
-    text: 'Para propuestas y reportes de barrio tenemos un formulario dedicado, con seguimiento público del estado de cada uno.',
-    href: '#contanos',
-    label: 'Ir a Contanos',
-  },
-}
-
 export default function Contacto() {
   const [reason, setReason] = useState(CONTACT_REASONS[1].key)
   const [name, setName] = useState('')
@@ -39,7 +40,6 @@ export default function Contacto() {
   const [fields, setFields] = useState<Record<string, string>>({})
   const [submitted, setSubmitted] = useState(false)
 
-  const redirect = REDIRECTS[reason]
   const extras = EXTRA_FIELDS[reason] ?? []
 
   function handleSubmit(event: FormEvent) {
@@ -98,23 +98,7 @@ export default function Contacto() {
           </div>
 
           <div>
-            {redirect ? (
-              <div className="flex h-full flex-col justify-between rounded-3xl border border-paper-line bg-white/50 p-8">
-                <div>
-                  <p className="font-display text-lg font-semibold text-ink md:text-xl">
-                    {CONTACT_REASONS.find((r) => r.key === reason)?.label}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-ink/65">{redirect.text}</p>
-                </div>
-                <a
-                  href={redirect.href}
-                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-ember px-5 py-3 text-sm font-semibold text-paper"
-                >
-                  {redirect.label}
-                  <ArrowRight className="size-4" strokeWidth={2.25} />
-                </a>
-              </div>
-            ) : submitted ? (
+            {submitted ? (
               <SuccessNotice title="Mensaje enviado" description="Gracias por escribirnos. Te vamos a responder a la brevedad." />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 rounded-3xl border border-paper-line bg-white/50 p-6 md:p-8">
