@@ -14,29 +14,10 @@ export const SITE = {
     'Vengo del barrio y me metí en política para resolver problemas concretos, no para prometer lo que no depende de un concejal.',
 }
 
-export const STATS = [
-  { value: 300, suffix: '+', label: 'Jóvenes capacitados en oficios' },
-  { value: 11, suffix: '', label: 'Años de trabajo en el barrio' },
-  { value: 292, suffix: '', label: 'Participaciones en esta plataforma' },
-  { value: 8, suffix: '', label: 'Barrios con trabajo activo' },
-] as const
-
-export const PILLARS = [
-  {
-    key: 'conocer',
-    title: 'Conocer',
-    description: 'Quién es Martín, su trayectoria, sus propuestas y sus prioridades.',
-  },
-  {
-    key: 'transparencia',
-    title: 'Transparencia',
-    description: 'Proyectos, actividad y compromisos, ordenados y fáciles de consultar.',
-  },
-  {
-    key: 'participacion',
-    title: 'Participación',
-    description: 'Un canal para proponer, consultar, avisar y encontrarse cara a cara.',
-  },
+export const INDICATORS = [
+  { value: 214, suffix: '', label: 'ideas recibidas' },
+  { value: 8, suffix: '', label: 'barrios participando' },
+  { value: 12, suffix: '', label: 'propuestas en análisis' },
 ] as const
 
 export interface NavLink {
@@ -44,43 +25,12 @@ export interface NavLink {
   href: string
 }
 
-export interface NavGroup {
-  label: string
-  links: NavLink[]
-}
-
-export const NAV_GROUPS: NavGroup[] = [
-  {
-    label: 'Conocer',
-    links: [
-      { label: 'Quién soy', href: '#quien-soy' },
-      { label: 'Por qué me involucré', href: '#por-que' },
-      { label: 'Trayectoria', href: '#trayectoria' },
-    ],
-  },
-  {
-    label: 'Propuestas',
-    links: [
-      { label: 'Propuestas por área', href: '#propuestas' },
-      { label: 'Mis prioridades', href: '#prioridades' },
-    ],
-  },
-  {
-    label: 'Transparencia',
-    links: [
-      { label: 'Documentos y actividad', href: '#/transparencia' },
-      { label: 'Agenda pública', href: '#agenda' },
-    ],
-  },
-  {
-    label: 'Participación',
-    links: [
-      { label: 'Participá', href: '#participa' },
-      { label: 'Propuestas y seguimiento', href: '#comunidad' },
-      { label: 'Preguntas y respuestas', href: '#preguntas' },
-      { label: 'Contacto', href: '#contacto' },
-    ],
-  },
+export const NAV_LINKS: NavLink[] = [
+  { label: 'Inicio', href: '#top' },
+  { label: 'Conoceme', href: '#conoceme' },
+  { label: 'Propuestas', href: '#propuestas' },
+  { label: 'Participá', href: '#participa' },
+  { label: 'Contacto', href: '#contacto' },
 ]
 
 export interface SocialLink {
@@ -398,83 +348,40 @@ export const PROPOSALS: Proposal[] = [
 ]
 
 export interface Priority {
+  area: ProposalArea
   title: string
   summary: string
-  detail: string
 }
 
 export const PRIORITIES: Priority[] = [
-  {
-    title: 'Seguridad barrial',
-    summary: 'Alumbrado que funcione y mesas de diálogo activas en cada barrio.',
-    detail:
-      'La seguridad se construye con presencia sostenida, no con anuncios puntuales: alumbrado que se repara rápido, espacios públicos cuidados y un canal directo con la fuerza de seguridad y el municipio.',
-  },
-  {
-    title: 'Empleo joven',
-    summary: 'Formación en oficios conectada con la demanda real de las pymes locales.',
-    detail:
-      'Escalar programas como Oficio Tucumán, con becas de transporte y pasantías reales, para que la primera experiencia laboral deje de ser un obstáculo.',
-  },
-  {
-    title: 'Infraestructura',
-    summary: 'Bacheo, veredas y espacios públicos con criterios públicos de prioridad.',
-    detail:
-      'Que cualquier vecino pueda saber por qué se interviene una cuadra antes que otra, con cronogramas públicos y actualizados.',
-  },
-  {
-    title: 'Modernización municipal',
-    summary: 'Trámites simples, digitales y con seguimiento real.',
-    detail:
-      'Los trámites más frecuentes deberían poder iniciarse y seguirse desde el celular, con lenguaje claro y sin vueltas innecesarias.',
-  },
-  {
-    title: 'Participación ciudadana',
-    summary: 'Canales reales para proponer, reclamar y saber qué pasó después.',
-    detail:
-      'La participación no puede terminar en un formulario que nadie vuelve a mirar: cada propuesta o reclamo necesita una respuesta y un seguimiento visible.',
-  },
+  { area: 'Seguridad', title: 'Seguridad', summary: 'Alumbrado que funcione y mesas de diálogo activas en cada barrio.' },
+  { area: 'Empleo', title: 'Empleo', summary: 'Formación en oficios conectada con la demanda real de las pymes locales.' },
+  { area: 'Infraestructura', title: 'Infraestructura', summary: 'Bacheo, veredas y espacios públicos con criterios públicos de prioridad.' },
+  { area: 'Educación', title: 'Educación', summary: 'Apoyo escolar en los barrios donde más hace falta.' },
+  { area: 'Ambiente', title: 'Ambiente', summary: 'Espacios verdes y huertas comunitarias en terrenos hoy ociosos.' },
 ]
 
-export interface ParticipationOption {
-  title: string
-  description: string
-  icon: 'lightbulb' | 'flag' | 'message-circle-question' | 'calendar-check' | 'users' | 'handshake'
-  target: string
+export type ParticipateStepType = 'pills' | 'text' | 'textarea'
+
+export interface ParticipateStep {
+  key: string
+  label: string
+  type: ParticipateStepType
+  options?: readonly string[]
+  placeholder?: string
+  optional?: boolean
 }
 
-export const PARTICIPATION_OPTIONS: ParticipationOption[] = [
-  {
-    title: 'Proponer una idea o contar un problema',
-    description: 'Una propuesta para tu barrio, o avisanos sobre calles, alumbrado u otra situación puntual.',
-    icon: 'lightbulb',
-    target: '#contacto',
-  },
-  {
-    title: 'Hacer una consulta',
-    description: 'Escribinos con una duda sobre propuestas, trayectoria o el rol de concejal.',
-    icon: 'message-circle-question',
-    target: '#contacto',
-  },
-  {
-    title: 'Solicitar una reunión',
-    description: 'Pedí un encuentro para conversar sobre un tema puntual de tu organización o barrio.',
-    icon: 'calendar-check',
-    target: '#contacto',
-  },
-  {
-    title: 'Participar de una actividad',
-    description: 'Sumate a alguno de los encuentros de la agenda pública.',
-    icon: 'users',
-    target: '#agenda',
-  },
-  {
-    title: 'Sumarme como colaborador',
-    description: 'Ofrecé tu tiempo para acompañar el trabajo territorial del espacio.',
-    icon: 'handshake',
-    target: '#contacto',
-  },
-]
+export interface ParticipateFlow {
+  key: string
+  title: string
+  description: string
+  icon: 'lightbulb' | 'flag' | 'message-circle-question' | 'users'
+  steps: ParticipateStep[]
+}
+
+// PARTICIPATE_FLOWS is declared further below, once IDEA_CATEGORIES and
+// REPORT_CATEGORIES (which it references) are initialized.
 
 export const IDEA_CATEGORIES = [
   'Seguridad',
@@ -592,6 +499,68 @@ export const REPORT_CATEGORIES = [
   'Otros',
 ] as const
 
+export const PARTICIPATE_FLOWS: ParticipateFlow[] = [
+  {
+    key: 'idea',
+    title: 'Tengo una idea',
+    description: 'Compartí una propuesta concreta para tu barrio o para la ciudad.',
+    icon: 'lightbulb',
+    steps: [
+      { key: 'category', label: '¿Sobre qué tema?', type: 'pills', options: IDEA_CATEGORIES },
+      { key: 'neighborhood', label: '¿En qué barrio?', type: 'text', placeholder: 'Ej. Villa 9 de Julio' },
+      { key: 'description', label: 'Contanos tu propuesta', type: 'textarea', placeholder: 'Contá con el mayor detalle posible qué te gustaría mejorar.' },
+      { key: 'contact', label: 'Datos de contacto', type: 'text', placeholder: 'Nombre, email o WhatsApp', optional: true },
+    ],
+  },
+  {
+    key: 'problema',
+    title: 'Quiero contar un problema',
+    description: 'Avisanos sobre calles, alumbrado, transporte u otra situación puntual.',
+    icon: 'flag',
+    steps: [
+      { key: 'category', label: '¿Sobre qué tema?', type: 'pills', options: REPORT_CATEGORIES },
+      { key: 'neighborhood', label: '¿En qué barrio?', type: 'text', placeholder: 'Ej. Barrio Norte' },
+      { key: 'description', label: 'Contanos qué está pasando', type: 'textarea', placeholder: 'Si podés, contanos la calle o esquina exacta.' },
+      { key: 'contact', label: 'Datos de contacto', type: 'text', placeholder: 'Nombre, email o WhatsApp', optional: true },
+    ],
+  },
+  {
+    key: 'pregunta',
+    title: 'Quiero hacer una pregunta',
+    description: 'Escribinos con una duda sobre propuestas, trayectoria o el rol de concejal.',
+    icon: 'message-circle-question',
+    steps: [
+      { key: 'description', label: 'Tu pregunta', type: 'textarea', placeholder: 'Contanos tu duda.' },
+      { key: 'contact', label: 'Datos de contacto', type: 'text', placeholder: 'Nombre, email o WhatsApp', optional: true },
+    ],
+  },
+  {
+    key: 'participar',
+    title: 'Quiero participar',
+    description: 'Sumate a una actividad o acompañá el trabajo territorial del espacio.',
+    icon: 'users',
+    steps: [
+      { key: 'description', label: '¿Cómo te gustaría sumarte?', type: 'textarea', placeholder: 'Una actividad puntual, ser colaborador, difundir...' },
+      { key: 'contact', label: 'Datos de contacto', type: 'text', placeholder: 'Nombre, email o WhatsApp', optional: true },
+    ],
+  },
+]
+
+export interface MapZone {
+  neighborhood: string
+  participations: number
+  topTopics: string[]
+}
+
+export const MAP_ZONES: MapZone[] = [
+  { neighborhood: 'Centro', participations: 124, topTopics: ['Infraestructura', 'Transporte'] },
+  { neighborhood: 'Barrio Norte', participations: 67, topTopics: ['Transporte', 'Espacios públicos'] },
+  { neighborhood: 'Villa 9 de Julio', participations: 53, topTopics: ['Seguridad', 'Alumbrado'] },
+  { neighborhood: 'Barrio Sur', participations: 48, topTopics: ['Ambiente', 'Limpieza'] },
+  { neighborhood: 'Villa Alem', participations: 34, topTopics: ['Espacios públicos'] },
+  { neighborhood: 'Villa Amalia', participations: 18, topTopics: ['Educación', 'Salud'] },
+]
+
 export interface AgendaEvent {
   title: string
   date: string
@@ -645,42 +614,20 @@ export interface FaqItem {
 
 export const FAQS: FaqItem[] = [
   {
-    question: '¿Por qué te presentás como candidato a Concejal y no a otro cargo?',
-    answer:
-      'Porque es el lugar desde donde se controla el presupuesto municipal y se legisla sobre la vida cotidiana del barrio. Es un cargo con impacto real si se lo trabaja con seriedad.',
+    question: '¿Cómo puedo enviar una propuesta?',
+    answer: 'Desde "Participá", elegí "Tengo una idea" y completá un formulario breve en unos pocos pasos.',
   },
   {
-    question: '¿Hace cuánto participás de Frente Ciudadano?',
-    answer: 'Me sumé en 2021, después de años de trabajo territorial independiente en la zona sur de la ciudad.',
+    question: '¿Puedo participar en alguna actividad?',
+    answer: 'Sí. En "Comunidad" mostramos el próximo encuentro, y también podés pedirlo directamente desde Contacto.',
   },
   {
-    question: '¿Qué puede hacer realmente un concejal y qué no?',
-    answer:
-      'Puede sancionar ordenanzas, aprobar y controlar el presupuesto municipal, y controlar al Ejecutivo. No maneja la policía provincial ni dicta leyes provinciales o nacionales: esas dependen de la provincia.',
+    question: '¿Cómo conozco las próximas reuniones?',
+    answer: 'En "Comunidad" está el próximo encuentro confirmado, con la opción de ver toda la agenda.',
   },
   {
-    question: '¿Cómo se financia el programa Oficio Tucumán?',
-    answer:
-      'Combina aportes de una escuela técnica local, colaboraciones de pymes de la zona y, en los últimos dos años, una partida específica gestionada ante el municipio.',
-  },
-  {
-    question: '¿Qué pasa con las propuestas que envían los vecinos por esta plataforma?',
-    answer:
-      'Cada propuesta recibe una respuesta y un estado de seguimiento público. Podés revisarlo tocando "Ver seguimiento" en cualquier propuesta de la sección "Propuestas de la comunidad".',
-  },
-  {
-    question: '¿Los apoyos a las propuestas de la comunidad son una encuesta oficial?',
-    answer:
-      'No. Son una forma de interacción dentro de esta plataforma y no representan una medición de la opinión general de la población.',
-  },
-  {
-    question: '¿Puedo pedir una reunión personal?',
-    answer: 'Sí, desde la sección Contacto podés solicitar una reunión indicando el motivo y la disponibilidad horaria.',
-  },
-  {
-    question: '¿Vas a mantener actualizada la información de gestión si resultás electo?',
-    answer:
-      'Sí, la idea de este espacio es justamente esa: mantener actualizada la actividad, los proyectos y los compromisos asumidos durante todo el mandato.',
+    question: '¿Cómo sigo el estado de mi propuesta?',
+    answer: 'Cada propuesta recibida pasa por etapas públicas: recibida, en análisis, incorporada y proyecto presentado.',
   },
 ]
 
@@ -783,11 +730,12 @@ export interface ContactReason {
 }
 
 export const CONTACT_REASONS: ContactReason[] = [
-  { key: 'propuesta', label: 'Tengo una propuesta o un problema', helper: 'Contanos tu idea o qué está pasando en tu barrio.' },
-  { key: 'consulta', label: 'Tengo una consulta', helper: 'Escribinos tu duda y te respondemos a la brevedad.' },
-  { key: 'reunion', label: 'Quiero solicitar una reunión', helper: 'Indicanos el motivo y tu disponibilidad.' },
+  { key: 'propuesta', label: 'Propuesta', helper: 'Contanos tu idea para el barrio o la ciudad.' },
+  { key: 'problema', label: 'Problema', helper: 'Contanos qué está pasando y dónde.' },
+  { key: 'consulta', label: 'Consulta', helper: 'Escribinos tu duda y te respondemos a la brevedad.' },
+  { key: 'reunion', label: 'Reunión', helper: 'Indicanos el motivo y tu disponibilidad.' },
   { key: 'prensa', label: 'Prensa', helper: 'Consultas de medios de comunicación.' },
-  { key: 'participar', label: 'Quiero participar', helper: 'Contanos cómo te gustaría sumarte.' },
+  { key: 'participar', label: 'Participar', helper: 'Contanos cómo te gustaría sumarte.' },
   { key: 'otro', label: 'Otro', helper: 'Cualquier otro motivo de contacto.' },
 ]
 

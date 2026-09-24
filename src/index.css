@@ -3,25 +3,25 @@
 @theme {
   --font-display: "Bricolage Grotesque", "Arial", sans-serif;
   --font-body: "Public Sans", system-ui, -apple-system, sans-serif;
+  --font-script: "Caveat", cursive;
 
-  --color-ink: #1a0f14;
-  --color-ink-soft: #241620;
-  --color-ink-line: #4a2f3b;
-  --color-paper: #fbf4e9;
-  --color-paper-dim: #eee1c8;
-  --color-paper-line: #dbc9ae;
-  --color-ember: #e8472f;
-  --color-ember-soft: #f3a98f;
-  --color-ember-tint: #fbe2d8;
-  --color-forest: #21695a;
-  --color-forest-soft: #c9e2da;
-  --color-amber: #f5b942;
-  --color-amber-soft: #fbdca0;
+  --color-ink: #101b3d;
+  --color-ink-soft: #17244f;
+  --color-ink-line: #2c3868;
+  --color-paper: #ffffff;
+  --color-paper-dim: #f3f5fa;
+  --color-paper-line: #e3e7f0;
+  --color-ember: #8dc63f;
+  --color-ember-soft: #c7e79c;
+  --color-ember-tint: #eef8de;
+  --color-forest: #2f7d52;
+  --color-forest-soft: #d6ecdd;
+  --color-amber: #f2b134;
+  --color-amber-soft: #fbe3ac;
 
   --animate-float-slow: float-slow 9s ease-in-out infinite;
   --animate-pulse-soft: pulse-soft 2.6s ease-in-out infinite;
   --animate-draw-line: draw-line 1.4s ease forwards;
-  --animate-marquee: marquee 22s linear infinite;
 }
 
 @layer base {
@@ -38,7 +38,7 @@
   }
 
   ::selection {
-    background: var(--color-ember);
+    background: var(--color-ink);
     color: var(--color-paper);
   }
 
@@ -50,6 +50,10 @@
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
+  }
+
+  .font-script {
+    font-family: var(--font-script);
   }
 
   @keyframes float-slow {
@@ -65,11 +69,6 @@
   @keyframes draw-line {
     from { stroke-dashoffset: 1; }
     to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
   }
 
   @media (prefers-reduced-motion: reduce) {

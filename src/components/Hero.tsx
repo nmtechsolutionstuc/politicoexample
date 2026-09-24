@@ -1,142 +1,145 @@
-import { lazy, Suspense, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight } from 'lucide-react'
 import Container from './Container'
 import SocialIcon from './SocialIcon'
-import RevealImage from './RevealImage'
-import Marquee from './Marquee'
 import { useMagnetic } from '../hooks/useMagnetic'
-
-// Three.js is a heavy dependency purely for hero decoration: load it after the
-// critical text/CTAs have already painted instead of blocking first render.
-const ParticleField = lazy(() => import('./ParticleField'))
 import heroPhoto from '../assets/images/politico-4.webp'
-import { PRIORITIES, SITE, SOCIAL_LINKS } from '../data/content'
+import secondaryPhoto from '../assets/images/politico-2.webp'
+import { SITE, SOCIAL_LINKS } from '../data/content'
 
-const NAME_WORDS = SITE.name.split(' ')
-const TICKER_ITEMS = PRIORITIES.map((p) => p.title)
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
-  const scope = useRef<HTMLDivElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
   const ctaRef = useMagnetic<HTMLAnchorElement>(0.3)
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
+    const ctx = gsap.context(() => {
+      // Entrance: the hero content settles in on load, independent of scroll.
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       if (reduceMotion) {
-        gsap.set('[data-hero-word]', { yPercent: 0 })
+        gsap.set('[data-hero-in]', { opacity: 1, y: 0 })
       } else {
-        tl.set('[data-hero-item]', { opacity: 0, y: 22 })
-        tl.set('[data-hero-word]', { yPercent: 130, rotate: 4 })
-        tl.to('[data-hero-word]', { yPercent: 0, rotate: 0, duration: 0.85, ease: 'power4.out', stagger: 0.08 })
-        tl.to('[data-hero-item]', { opacity: 1, y: 0, duration: 0.8, stagger: 0.09 }, 0.25)
-        tl.fromTo('[data-hero-frame]', { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 1.1 }, 0.3)
-        tl.fromTo('[data-hero-badge]', { opacity: 0, scale: 0.5, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.7 }, 0.9)
-        gsap.to('[data-hero-badge]', { y: -6, duration: 2.4, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.6 })
+        tl.set('[data-hero-in]', { opacity: 0, y: 22 })
+        tl.to('[data-hero-in]', { opacity: 1, y: 0, duration: 0.9, stagger: 0.09 })
+        tl.fromTo('[data-hero-photo]', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 1.2 }, 0.1)
       }
-    }, scope)
+
+      // A short, self-contained scroll sequence: the wrapper is tall enough to give ~1.6
+      // screens of scroll, the stage stays pinned via CSS `sticky`, and this scrubbed
+      // timeline reorganises the layout once, then releases scroll normally afterwards.
+      if (!reduceMotion && wrapRef.current) {
+        const seq = gsap.timeline({
+          scrollTrigger: {
+            trigger: wrapRef.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.5,
+          },
+        })
+        seq
+          .to('[data-hero-headline]', { opacity: 0, y: -26, duration: 1 }, 0.22)
+          .to('[data-hero-cta]', { opacity: 0, y: -12, duration: 0.8 }, 0.22)
+          .to('[data-hero-name]', { scale: 0.72, duration: 1 }, 0.22)
+          .fromTo('[data-hero-script]', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 1 }, 0.42)
+          .fromTo(
+            '[data-hero-secondary]',
+            { opacity: 0, scale: 0.85, rotate: -6, y: 30 },
+            { opacity: 1, scale: 1, rotate: -3, y: 0, duration: 1.1 },
+            0.55,
+          )
+          .to('[data-hero-photo]', { scale: 1.14, duration: 1.6 }, 0)
+      }
+    }, wrapRef)
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section id="top" ref={scope} className="relative overflow-hidden bg-ink pb-0 pt-24 md:pt-28 lg:pt-32">
-      <Suspense fallback={null}>
-        <ParticleField />
-      </Suspense>
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,var(--color-ink)_28%,transparent_60%)]"
-      />
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-16 bottom-0 size-72 rounded-full bg-forest/20 blur-[100px] animate-float-slow" />
-      </div>
+    <div ref={wrapRef} id="top" className="relative h-[170vh]">
+      <div ref={stageRef} className="sticky top-0 h-[100dvh] overflow-hidden bg-ink">
+        <img
+          data-hero-photo
+          src={heroPhoto}
+          alt={`${SITE.name} conversando con vecinas en un barrio de San Miguel de Tucumán`}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/20" />
 
-      <Container className="relative grid gap-10 pb-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-10 lg:pb-16">
-        <div>
-          <p data-hero-item className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-ember-soft">
+        <Container className="relative flex h-full flex-col justify-end pb-16 pt-24 md:pb-24">
+          <div data-hero-in className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper/70">
             {SITE.party} · {SITE.district}
-          </p>
+          </div>
 
-          <h1 className="font-display leading-[0.94] tracking-tight text-paper">
-            <span className="flex flex-wrap gap-x-4">
-              {NAME_WORDS.map((word) => (
-                <span key={word} className="overflow-hidden pb-1">
-                  <span data-hero-word className="inline-block text-5xl font-semibold sm:text-6xl lg:text-7xl">
-                    {word}
-                  </span>
-                </span>
-              ))}
+          <h1 data-hero-name className="font-display origin-bottom-left text-5xl font-semibold leading-[0.98] tracking-tight text-paper sm:text-6xl lg:text-7xl">
+            <span data-hero-in className="block">
+              Martín
             </span>
-            <span data-hero-item className="mt-2 block text-2xl font-medium text-paper/75 sm:text-3xl lg:text-4xl">
-              {SITE.role}
+            <span data-hero-in className="flex items-center gap-3">
+              Álvarez
+              <span aria-hidden className="inline-block size-2.5 rounded-full bg-ember sm:size-3.5" />
             </span>
           </h1>
 
-          <p data-hero-item className="mt-6 max-w-lg text-base leading-relaxed text-paper/70 md:text-lg">
-            {SITE.heroStatement}
+          <p data-hero-in className="mt-3 text-lg font-medium text-paper/80 sm:text-xl">
+            {SITE.role} · {SITE.district}
           </p>
 
-          <div data-hero-item className="mt-8 flex flex-wrap items-center gap-3">
+          <div data-hero-headline data-hero-in className="mt-5 max-w-md text-base leading-relaxed text-paper/75 md:text-lg">
+            {SITE.heroStatement}
+          </div>
+
+          <p
+            data-hero-script
+            aria-hidden
+            className="pointer-events-none absolute right-6 top-[38%] hidden max-w-xs -rotate-2 font-script text-3xl leading-tight text-paper/90 md:right-16 md:block md:text-4xl"
+          >
+            Antes de hablarte de mis propuestas, quiero contarte quién soy.
+          </p>
+
+          <div
+            data-hero-secondary
+            className="pointer-events-none absolute right-6 top-[18%] hidden w-40 overflow-hidden rounded-2xl border-4 border-paper shadow-2xl shadow-ink md:right-16 md:block md:w-52"
+          >
+            <img src={secondaryPhoto} alt="" aria-hidden className="aspect-[4/5] w-full object-cover" />
+          </div>
+
+          <div data-hero-in data-hero-cta className="mt-8 flex flex-wrap items-center gap-3">
             <a
               ref={ctaRef}
-              href="#quien-soy"
-              className="inline-flex items-center gap-2 rounded-full bg-ember px-5 py-3 text-sm font-semibold text-paper transition-transform active:scale-[0.98]"
+              href="#conoceme"
+              className="inline-flex items-center gap-2 rounded-full bg-paper px-5 py-3 text-sm font-semibold text-ink transition-transform active:scale-[0.98]"
             >
-              Conocé su historia
+              Conocé mi trabajo
               <ArrowRight className="size-4" strokeWidth={2.25} />
             </a>
             <a
-              href="#propuestas"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
-            >
-              Ver propuestas
-            </a>
-            <a
               href="#participa"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
+              className="inline-flex items-center gap-2 rounded-full border border-paper/30 px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
             >
-              Quiero participar
+              Participá
             </a>
           </div>
 
-          <div data-hero-item className="mt-9 flex flex-wrap items-center gap-3">
+          <div data-hero-in className="mt-7 flex items-center gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.platform}
                 href={social.href}
                 aria-label={social.platform}
-                className="flex size-9 items-center justify-center rounded-full text-paper/60 transition-colors hover:bg-paper/10 hover:text-paper"
+                className="flex size-8 items-center justify-center rounded-full text-paper/55 transition-colors hover:bg-paper/10 hover:text-paper"
               >
                 <SocialIcon icon={social.icon} className="size-4" />
               </a>
             ))}
           </div>
-        </div>
-
-        <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
-          <div
-            data-hero-frame
-            aria-hidden
-            className="absolute -inset-3 rounded-[2.5rem] border border-ember/25 sm:-inset-4"
-          />
-          <RevealImage
-            src={heroPhoto}
-            alt={`${SITE.name} conversando con vecinas en un barrio de San Miguel de Tucumán`}
-            className="aspect-[4/5] w-full rounded-[2rem] shadow-2xl shadow-ink"
-          />
-          <div
-            data-hero-badge
-            className="absolute -bottom-6 -left-5 flex size-20 items-center justify-center rounded-full border-4 border-ink bg-ember font-display text-lg font-semibold text-paper shadow-xl shadow-ink sm:-bottom-7 sm:-left-7 sm:size-24"
-          >
-            {SITE.initials}
-          </div>
-        </div>
-      </Container>
-
-      <Marquee items={TICKER_ITEMS} />
-    </section>
+        </Container>
+      </div>
+    </div>
   )
 }

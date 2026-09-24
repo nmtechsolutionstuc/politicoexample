@@ -4,15 +4,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import ScrollProgress from './components/ScrollProgress.tsx'
 import Nav from './components/Nav.tsx'
 import Hero from './components/Hero.tsx'
-import Stats from './components/Stats.tsx'
-import QuienSoy from './components/QuienSoy.tsx'
-import Trayectoria from './components/Trayectoria.tsx'
-import Propuestas from './components/Propuestas.tsx'
+import Conoceme from './components/Conoceme.tsx'
+import HechosPropuestas from './components/HechosPropuestas.tsx'
 import Participa from './components/Participa.tsx'
-import PropuestasComunidad from './components/PropuestasComunidad.tsx'
-import AgendaPublica from './components/AgendaPublica.tsx'
-import PreguntasRespuestas from './components/PreguntasRespuestas.tsx'
-import RedesSociales from './components/RedesSociales.tsx'
+import Comunidad from './components/Comunidad.tsx'
 import Contacto from './components/Contacto.tsx'
 import Footer from './components/Footer.tsx'
 import AdminPanel from './components/AdminPanel.tsx'
@@ -53,7 +48,7 @@ function App() {
   if (isPanel) return <AdminPanel />
 
   return (
-    <div id="top">
+    <div>
       <ScrollProgress />
       <Nav />
       <main>
@@ -62,15 +57,10 @@ function App() {
         ) : (
           <>
             <Hero />
-            <Stats />
-            <QuienSoy />
-            <Trayectoria />
-            <Propuestas />
+            <Conoceme />
+            <HechosPropuestas />
             <Participa />
-            <PropuestasComunidad />
-            <AgendaPublica />
-            <PreguntasRespuestas />
-            <RedesSociales />
+            <Comunidad />
             <Contacto />
           </>
         )}

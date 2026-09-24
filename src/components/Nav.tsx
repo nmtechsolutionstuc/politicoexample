@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Container from './Container'
-import { NAV_GROUPS, SITE } from '../data/content'
+import { NAV_LINKS, SITE } from '../data/content'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
-  const [openGroup, setOpenGroup] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function Nav() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? 'bg-paper/92 shadow-[0_1px_0_0_rgba(22,20,15,0.08)] backdrop-blur-md' : 'bg-transparent'
+        scrolled ? 'bg-paper/95 shadow-[0_1px_0_0_rgba(16,27,61,0.08)] backdrop-blur-md' : 'bg-transparent'
       }`}
     >
       <Container>
@@ -37,50 +36,28 @@ export default function Nav() {
             </span>
             <span className="hidden flex-col leading-tight sm:flex">
               <span className="font-display text-sm font-semibold text-ink">{SITE.name}</span>
-              <span className="text-xs text-ink/55">{SITE.party}</span>
+              <span className="text-xs text-ink/50">{SITE.party}</span>
             </span>
           </a>
 
-          <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setOpenGroup(null)}>
-            {NAV_GROUPS.map((group) => (
-              <div key={group.label} className="relative">
-                <button
-                  onMouseEnter={() => setOpenGroup(group.label)}
-                  onClick={() => setOpenGroup((g) => (g === group.label ? null : group.label))}
-                  className="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-ink/75 transition-colors hover:bg-ink/5 hover:text-ink"
-                  aria-expanded={openGroup === group.label}
-                >
-                  {group.label}
-                  <ChevronDown className="size-3.5" strokeWidth={2} />
-                </button>
-                <div
-                  className={`absolute left-0 top-full pt-2 transition-all duration-150 ${
-                    openGroup === group.label ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-1 opacity-0'
-                  }`}
-                >
-                  <div className="w-64 rounded-2xl border border-paper-line bg-paper p-2 shadow-xl shadow-ink/10">
-                    {group.links.map((link) => (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setOpenGroup(null)}
-                        className="block rounded-xl px-3 py-2.5 text-sm text-ink/75 transition-colors hover:bg-ember-tint hover:text-ember"
-                      >
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
+          <nav className="hidden items-center gap-1 lg:flex">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-ink/70 transition-colors hover:bg-ink/5 hover:text-ink"
+              >
+                {link.label}
+              </a>
             ))}
           </nav>
 
           <div className="flex items-center gap-2">
             <a
               href="#participa"
-              className="hidden items-center rounded-full bg-ember px-4 py-2 text-sm font-semibold text-paper transition-transform active:scale-[0.98] sm:inline-flex"
+              className="hidden items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-paper transition-transform active:scale-[0.98] sm:inline-flex"
             >
-              Participá
+              Sumate
             </a>
             <button
               onClick={() => setMobileOpen(true)}
@@ -109,30 +86,23 @@ export default function Nav() {
                 </div>
               </Container>
               <Container className="flex-1 pb-10">
-                <div className="flex flex-col gap-8 pt-4">
-                  {NAV_GROUPS.map((group) => (
-                    <div key={group.label}>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ember">{group.label}</p>
-                      <div className="mt-3 flex flex-col gap-1">
-                        {group.links.map((link) => (
-                          <a
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="rounded-xl px-2 py-3 font-display text-xl font-medium text-ink"
-                          >
-                            {link.label}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
+                <div className="flex flex-col gap-1 pt-6">
+                  {NAV_LINKS.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="rounded-xl px-2 py-3 font-display text-2xl font-medium text-ink"
+                    >
+                      {link.label}
+                    </a>
                   ))}
                   <a
                     href="#participa"
                     onClick={() => setMobileOpen(false)}
-                    className="mt-2 inline-flex items-center justify-center rounded-full bg-ember px-5 py-3.5 text-sm font-semibold text-paper"
+                    className="mt-6 inline-flex items-center justify-center rounded-full bg-ink px-5 py-3.5 text-sm font-semibold text-paper"
                   >
-                    Participá
+                    Sumate
                   </a>
                 </div>
               </Container>
