@@ -25,6 +25,17 @@ export default function Hero() {
     const video = videoRef.current
     if (!video || reduceMotion) return
 
+    // Mobile browsers (iOS Safari especially) never decode a single frame until playback
+    // has started at least once — seeking `currentTime` on a video that has never played
+    // renders solid black. Priming with a muted play()/pause() makes subsequent seeks
+    // actually paint frames. Harmless on desktop too (imperceptible, muted, instant).
+    video.muted = true
+    video.load()
+    video.play().then(
+      () => video.pause(),
+      () => {},
+    )
+
     // Scroll-scrubbed video: absolute scroll progress maps directly to video.currentTime,
     // fully reversible. A persistent rAF loop lerps toward that target instead of setting
     // currentTime straight from the scroll event, which is what keeps the seek smooth
