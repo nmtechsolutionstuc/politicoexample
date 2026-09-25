@@ -8,7 +8,7 @@ import Conoceme from './components/Conoceme.tsx'
 import HechosPropuestas from './components/HechosPropuestas.tsx'
 import Participa from './components/Participa.tsx'
 import Comunidad from './components/Comunidad.tsx'
-import Contacto from './components/Contacto.tsx'
+import Preguntas from './components/Preguntas.tsx'
 import Footer from './components/Footer.tsx'
 import AdminPanel from './components/AdminPanel.tsx'
 import TransparenciaPage from './components/TransparenciaPage.tsx'
@@ -61,7 +61,7 @@ function App() {
             <HechosPropuestas />
             <Participa />
             <Comunidad />
-            <Contacto />
+            <Preguntas />
           </>
         )}
       </main>

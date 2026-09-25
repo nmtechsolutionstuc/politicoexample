@@ -30,7 +30,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Conoceme', href: '#conoceme' },
   { label: 'Propuestas', href: '#propuestas' },
   { label: 'Participá', href: '#participa' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Preguntas', href: '#preguntas' },
 ]
 
 export interface SocialLink {
@@ -619,7 +619,7 @@ export const FAQS: FaqItem[] = [
   },
   {
     question: '¿Puedo participar en alguna actividad?',
-    answer: 'Sí. En "Comunidad" mostramos el próximo encuentro, y también podés pedirlo directamente desde Contacto.',
+    answer: 'Sí. En "Comunidad" mostramos el próximo encuentro, y también podés sumarte desde "Participá", eligiendo "Quiero participar".',
   },
   {
     question: '¿Cómo conozco las próximas reuniones?',
@@ -723,22 +723,6 @@ export const TRANSPARENCY_DOCS: TransparencyDoc[] = [
   },
 ]
 
-export interface ContactReason {
-  key: string
-  label: string
-  helper: string
-}
-
-export const CONTACT_REASONS: ContactReason[] = [
-  { key: 'propuesta', label: 'Propuesta', helper: 'Contanos tu idea para el barrio o la ciudad.' },
-  { key: 'problema', label: 'Problema', helper: 'Contanos qué está pasando y dónde.' },
-  { key: 'consulta', label: 'Consulta', helper: 'Escribinos tu duda y te respondemos a la brevedad.' },
-  { key: 'reunion', label: 'Reunión', helper: 'Indicanos el motivo y tu disponibilidad.' },
-  { key: 'prensa', label: 'Prensa', helper: 'Consultas de medios de comunicación.' },
-  { key: 'participar', label: 'Participar', helper: 'Contanos cómo te gustaría sumarte.' },
-  { key: 'otro', label: 'Otro', helper: 'Cualquier otro motivo de contacto.' },
-]
-
 export const ADMIN_SUMMARY = {
   ideasReceived: 214,
   inquiries: 86,
@@ -757,32 +741,3 @@ export const ADMIN_SUMMARY = {
     { label: 'Reporte de barrio actualizado', detail: 'Alumbrado en pasaje interno, Villa 9 de Julio', time: 'Hace 2 días' },
   ],
 }
-
-export interface RecentPost {
-  platform: 'Instagram' | 'Facebook' | 'TikTok' | 'X'
-  caption: string
-  date: string
-}
-
-export const RECENT_POSTS: RecentPost[] = [
-  {
-    platform: 'Instagram',
-    caption: 'Recorrida por el pasaje interno de Villa 9 de Julio junto a vecinos del barrio.',
-    date: 'Hace 3 días',
-  },
-  {
-    platform: 'X',
-    caption: 'Presentamos el anteproyecto de alumbrado inteligente ante la comisión de Obras y Servicios.',
-    date: 'Hace 1 semana',
-  },
-  {
-    platform: 'Facebook',
-    caption: 'Charla abierta sobre empleo joven en el Centro Vecinal de Barrio Sur.',
-    date: 'Hace 1 semana',
-  },
-  {
-    platform: 'TikTok',
-    caption: 'Qué hace un concejal, explicado en dos minutos.',
-    date: 'Hace 2 semanas',
-  },
-]
