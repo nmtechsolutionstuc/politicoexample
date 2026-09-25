@@ -29,12 +29,25 @@ export default function Hero() {
     // has started at least once — seeking `currentTime` on a video that has never played
     // renders solid black. Priming with a muted play()/pause() makes subsequent seeks
     // actually paint frames. Harmless on desktop too (imperceptible, muted, instant).
+    // If that first play() is refused (iOS Low Power Mode blocks even muted autoplay),
+    // retry on the first touch: touchstart counts as a user gesture, and it always
+    // happens right before the user starts scrolling the hero on a phone.
+    let primed = false
+    const prime = () => {
+      if (primed) return
+      video.play().then(
+        () => {
+          primed = true
+          video.pause()
+          window.removeEventListener('touchstart', prime)
+        },
+        () => {},
+      )
+    }
     video.muted = true
     video.load()
-    video.play().then(
-      () => video.pause(),
-      () => {},
-    )
+    prime()
+    window.addEventListener('touchstart', prime, { passive: true })
 
     // Scroll-scrubbed video: absolute scroll progress maps directly to video.currentTime,
     // fully reversible. A persistent rAF loop lerps toward that target instead of setting
@@ -50,7 +63,9 @@ export default function Hero() {
       if (video && video.duration) {
         const targetTime = targetProgress * video.duration
         smoothedTime += (targetTime - smoothedTime) * 0.25
-        if (Math.abs(smoothedTime - video.currentTime) > 0.008) {
+        // WebKit drops intermediate frames if a new seek is issued while one is still in
+        // flight, so only seek once the previous one has landed.
+        if (!video.seeking && Math.abs(smoothedTime - video.currentTime) > 0.008) {
           video.currentTime = smoothedTime
         }
       }
@@ -90,73 +105,82 @@ export default function Hero() {
 
     return () => {
       cancelAnimationFrame(rafId)
+      window.removeEventListener('touchstart', prime)
       ctx.revert()
     }
   }, [reduceMotion, videoSrc])
 
   return (
-    <div ref={wrapRef} id="top" className={`relative ${reduceMotion ? '' : 'h-[150vh] md:h-[190vh]'}`}>
+    <div ref={wrapRef} id="top" className={`relative bg-ink ${reduceMotion ? '' : 'h-[150vh] md:h-[190vh]'}`}>
       <div className="sticky top-0 h-[100dvh] overflow-hidden bg-ink">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(141,198,63,0.08),_transparent_60%)]" />
 
-        <Container className="relative flex h-full flex-col-reverse items-center gap-6 py-8 md:grid md:grid-cols-[1fr_1fr] md:gap-4 md:py-0">
+        {/* Mobile: a column where the video only takes the height the text leaves free, so the
+            whole figure always fits the *visible* viewport (browser bars included) instead of
+            overflowing and getting its head clipped. Desktop: two-column split. */}
+        <Container className="relative flex h-full flex-col items-center gap-3 pb-6 pt-[4.5rem] md:grid md:grid-cols-[1fr_1fr] md:gap-4 md:py-0">
           <div className="relative z-10 flex w-full flex-col items-center text-center md:items-start md:text-left">
-            <div data-hero-in className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-paper/70">
+            <div data-hero-in className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/70 md:mb-4 md:text-[11px]">
               {SITE.party} · {SITE.district}
             </div>
 
             <h1
               data-hero-name
-              className="font-display origin-center text-4xl font-semibold leading-[0.98] tracking-tight text-paper sm:text-5xl md:origin-left lg:text-7xl"
+              className="font-display origin-center text-[2.25rem] font-semibold leading-[0.98] tracking-tight text-paper sm:text-5xl md:origin-left lg:text-7xl"
             >
-              <span data-hero-in className="block">
+              <span data-hero-in className="inline-block md:block">
                 Martín
-              </span>
-              <span data-hero-in className="flex items-center justify-center gap-3 md:justify-start">
+              </span>{' '}
+              <span data-hero-in className="inline-flex items-center gap-2 md:flex md:gap-3">
                 Álvarez
-                <span aria-hidden className="inline-block size-2.5 rounded-full bg-ember sm:size-3.5" />
+                <span aria-hidden className="inline-block size-2 rounded-full bg-ember sm:size-3.5" />
               </span>
             </h1>
 
-            <p data-hero-in className="mt-3 text-base font-medium text-paper/80 sm:text-xl">
+            <p data-hero-in className="mt-2 text-[15px] font-medium text-paper/80 sm:text-xl md:mt-3">
               {SITE.role} · {SITE.district}
             </p>
 
-            <div className="relative mt-5 h-24 w-full max-w-md sm:h-16 md:h-20">
-              <div data-phase-1 data-hero-in className="absolute inset-x-0 top-0 text-base leading-relaxed text-paper/75 md:text-lg">
-                {SITE.heroStatement}
+            <div className="relative mt-3 h-[4.75rem] w-full max-w-md sm:h-16 md:mt-5 md:h-20">
+              {/* Entrance and scroll phase are split across two elements on purpose: when one
+                  element's opacity is owned by both the load timeline and the scrub timeline,
+                  the load tween wins and the sentence never fades out on scroll. */}
+              <div data-hero-in className="absolute inset-x-0 top-0">
+                <div data-phase-1 className="text-[15px] leading-snug text-paper/75 md:text-lg md:leading-relaxed">
+                  {SITE.heroStatement}
+                </div>
               </div>
               <p
                 data-phase-2
-                className="absolute inset-x-0 top-0 mx-auto max-w-xs -rotate-1 font-script text-2xl leading-tight text-paper/90 opacity-0 md:mx-0 md:text-3xl"
+                className="absolute inset-x-0 top-0 mx-auto max-w-xs -rotate-1 font-script text-[1.45rem] leading-tight text-paper/90 opacity-0 md:mx-0 md:text-3xl"
               >
                 Diez años de trabajo territorial en el sur de la ciudad.
               </p>
               <div data-phase-3 className="absolute inset-x-0 top-0 opacity-0">
-                <p className="mx-auto max-w-xs -rotate-1 font-script text-2xl leading-tight text-ember-soft md:mx-0 md:text-3xl">
+                <p className="mx-auto max-w-xs -rotate-1 font-script text-[1.45rem] leading-tight text-ember-soft md:mx-0 md:text-3xl">
                   Ahora quiero escucharte a vos.
                 </p>
               </div>
             </div>
 
-            <div data-hero-in className="mt-6 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+            <div data-hero-in className="mt-4 flex flex-wrap items-center justify-center gap-2.5 md:mt-6 md:justify-start md:gap-3">
               <a
                 ref={ctaRef}
                 href="#conoceme"
-                className="inline-flex items-center gap-2 rounded-full bg-paper px-5 py-3 text-sm font-semibold text-ink transition-transform active:scale-[0.98]"
+                className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-2.5 text-sm font-semibold text-ink transition-transform active:scale-[0.98] md:px-5 md:py-3"
               >
                 Conocé mi trabajo
                 <ArrowRight className="size-4" strokeWidth={2.25} />
               </a>
               <a
                 href="#participa"
-                className="inline-flex items-center gap-2 rounded-full border border-paper/30 px-5 py-3 text-sm font-semibold text-paper transition-colors hover:bg-paper/10"
+                className="inline-flex items-center gap-2 rounded-full border border-paper/30 px-4 py-2.5 text-sm font-semibold text-paper transition-colors hover:bg-paper/10 md:px-5 md:py-3"
               >
                 Participá
               </a>
             </div>
 
-            <div data-hero-in className="mt-7 flex items-center justify-center gap-3 md:justify-start">
+            <div data-hero-in className="mt-7 hidden items-center gap-3 md:flex">
               {SOCIAL_LINKS.map((social) => (
                 <a
                   key={social.platform}
@@ -170,12 +194,12 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative flex h-[44vh] w-full items-center justify-center sm:h-[52vh] md:h-[88vh]">
+          <div className="relative order-first min-h-0 w-full flex-1 md:order-none md:h-[88vh] md:flex-none">
             {reduceMotion ? (
               <img
                 src={heroPoster}
                 alt={`${SITE.name}, ${SITE.role}, saludando con el puño en alto`}
-                className="h-full w-auto object-contain mix-blend-screen"
+                className="absolute inset-0 h-full w-full object-contain mix-blend-screen"
               />
             ) : (
               <video
@@ -185,7 +209,7 @@ export default function Hero() {
                 preload="auto"
                 poster={heroPoster}
                 aria-label={`${SITE.name} girando y saludando con el puño en alto`}
-                className="h-full w-auto object-contain mix-blend-screen"
+                className="absolute inset-0 h-full w-full object-contain mix-blend-screen"
               >
                 <source src={videoSrc} type="video/mp4" />
               </video>
