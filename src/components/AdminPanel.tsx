@@ -48,7 +48,7 @@ function StatCard({ label, value }: { label: string; value: number }) {
   const ref = useCountUp(value, (n) => n.toLocaleString('es-AR'))
   return (
     <div className="rounded-2xl border border-paper-line bg-white p-6">
-      <p className="text-xs font-medium uppercase tracking-wide text-ink/45">{label}</p>
+      <p className="text-xs font-medium uppercase tracking-wide text-ink/65">{label}</p>
       <p className="mt-2 font-display text-3xl font-semibold text-ink">
         <span ref={ref}>0</span>
       </p>
@@ -63,18 +63,18 @@ export default function AdminPanel() {
     <div className="min-h-dvh bg-paper-dim/40">
       <header className="border-b border-paper-line bg-white">
         <Container className="flex h-16 items-center justify-between">
-          <a href="#top" className="flex items-center gap-2 text-sm font-medium text-ink/70 hover:text-ember">
+          <a href="#top" className="flex items-center gap-2 text-sm font-medium text-ink/70 hover:text-ember-deep">
             <ArrowLeft className="size-4" strokeWidth={2.25} />
             Volver al sitio público
           </a>
-          <p className="text-sm font-semibold text-ink/50">Panel de gestión · demo interna</p>
+          <p className="text-sm font-semibold text-ink/65">Panel de gestión · demo interna</p>
         </Container>
       </header>
 
       <Container className="py-10 md:py-14">
         <div className="mb-10">
           <h1 className="font-display text-2xl font-semibold text-ink md:text-3xl">Hola, equipo de {SITE.name}</h1>
-          <p className="mt-2 max-w-2xl text-sm text-ink/60 md:text-base">
+          <p className="mt-2 max-w-2xl text-sm text-ink/65 md:text-base">
             Resumen general de la actividad de la plataforma y accesos rápidos a cada área para administrar. Esta vista es una
             demostración conceptual con datos ficticios.
           </p>
@@ -111,9 +111,9 @@ export default function AdminPanel() {
                 <li key={activity.detail} className="flex items-start justify-between gap-4 border-b border-paper-line pb-4 last:border-0 last:pb-0">
                   <div>
                     <p className="text-sm font-medium text-ink">{activity.label}</p>
-                    <p className="text-sm text-ink/55">{activity.detail}</p>
+                    <p className="text-sm text-ink/65">{activity.detail}</p>
                   </div>
-                  <span className="shrink-0 text-xs text-ink/40">{activity.time}</span>
+                  <span className="shrink-0 text-xs text-ink/65">{activity.time}</span>
                 </li>
               ))}
             </ul>
@@ -129,12 +129,12 @@ export default function AdminPanel() {
                 className="flex items-center justify-between gap-3 rounded-2xl border border-paper-line bg-white p-5 text-left transition-colors hover:border-ember/40"
               >
                 <span className="flex items-center gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-full bg-ember-tint text-ember">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-ember-tint text-ember-deep">
                     <section.icon className="size-4.5" strokeWidth={2} />
                   </span>
                   <span className="text-sm font-medium text-ink">{section.label}</span>
                 </span>
-                <span className="rounded-full bg-ink/8 px-2.5 py-1 text-xs font-semibold text-ink/60">{section.count}</span>
+                <span className="rounded-full bg-ink/8 px-2.5 py-1 text-xs font-semibold text-ink/65">{section.count}</span>
               </button>
             ))}
           </div>

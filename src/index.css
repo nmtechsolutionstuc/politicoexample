@@ -14,7 +14,9 @@
   --color-ember: #8dc63f;
   --color-ember-soft: #c7e79c;
   --color-ember-tint: #eef8de;
-  --color-forest: #2f7d52;
+  /* Lime for text/icons on light surfaces: the brand lime is ~2:1 on white, this passes 4.5:1. */
+  --color-ember-deep: #4a7514;
+  --color-forest: #266843;
   --color-forest-soft: #d6ecdd;
   --color-amber: #f2b134;
   --color-amber-soft: #fbe3ac;
@@ -41,6 +43,13 @@
   ::selection {
     background: var(--color-ink);
     color: var(--color-paper);
+  }
+
+  /* currentColor always contrasts with its own surface, so one rule works on light and dark sections. */
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 6px;
   }
 
   h1, h2, h3, h4 {

@@ -31,10 +31,10 @@ function FlowForm({ flow, onDone }: { flow: ParticipateFlow; onDone: () => void 
   return (
     <div className="rounded-3xl border border-paper-line bg-white p-6 md:p-8">
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/40">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/65">
           Paso {stepIndex + 1} de {flow.steps.length}
         </p>
-        <button onClick={onDone} className="text-xs font-semibold text-ink/40 hover:text-ink">
+        <button onClick={onDone} className="text-xs font-semibold text-ink/65 hover:text-ink">
           Cancelar
         </button>
       </div>
@@ -90,7 +90,7 @@ function FlowForm({ flow, onDone }: { flow: ParticipateFlow; onDone: () => void 
         <button
           onClick={() => setStepIndex((i) => Math.max(0, i - 1))}
           disabled={stepIndex === 0}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink/60 transition-colors hover:text-ink disabled:opacity-0"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink/65 transition-colors hover:text-ink disabled:opacity-0"
         >
           <ArrowLeft className="size-4" strokeWidth={2.25} />
           Atrás
@@ -116,20 +116,20 @@ function CommunityRow({ proposal }: { proposal: (typeof COMMUNITY_PROPOSALS)[num
   return (
     <div className="border-t border-paper-line py-5 first:border-t-0 first:pt-0">
       <div className="flex items-start justify-between gap-3">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{proposal.category}</span>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember-deep">{proposal.category}</span>
         <StatusPill status={proposal.status} />
       </div>
       <h4 className="mt-2 font-display text-base font-semibold text-ink">{proposal.title}</h4>
-      <p className="mt-1 text-sm text-ink/55">{proposal.neighborhood}</p>
-      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/60">{proposal.description}</p>
+      <p className="mt-1 text-sm text-ink/65">{proposal.neighborhood}</p>
+      <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink/65">{proposal.description}</p>
       <button
         onClick={() => {
           if (supported) return
           setSupported(true)
           setSupports((s) => s + 1)
         }}
-        className={`mt-3 inline-flex items-center gap-1.5 text-xs font-semibold transition-colors ${
-          supported ? 'text-ember' : 'text-ink/50 hover:text-ink'
+        className={`mt-1 inline-flex min-h-11 items-center gap-1.5 text-xs font-semibold transition-colors ${
+          supported ? 'text-ember-deep' : 'text-ink/65 hover:text-ink'
         }`}
       >
         <Heart className="size-3.5" strokeWidth={2.25} fill={supported ? 'currentColor' : 'none'} />
@@ -165,14 +165,14 @@ export default function Participa() {
                       onClick={() => setActiveFlow(flow)}
                       className="group flex items-center gap-4 border-t border-paper-line px-5 py-5 text-left transition-colors first:border-t-0 hover:bg-paper-dim"
                     >
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ember-tint text-ember transition-transform group-hover:scale-105">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ember-tint text-ember-deep transition-transform group-hover:scale-105">
                         <Icon className="size-5" strokeWidth={2} />
                       </span>
                       <div className="flex-1">
-                        <h4 className="font-display text-base font-semibold text-ink">{flow.title}</h4>
-                        <p className="mt-0.5 text-sm leading-relaxed text-ink/60">{flow.description}</p>
+                        <h3 className="font-display text-base font-semibold text-ink">{flow.title}</h3>
+                        <p className="mt-0.5 text-sm leading-relaxed text-ink/65">{flow.description}</p>
                       </div>
-                      <ChevronRight className="size-5 shrink-0 text-ink/30 transition-transform group-hover:translate-x-0.5 group-hover:text-ink/60" strokeWidth={2} />
+                      <ChevronRight className="size-5 shrink-0 text-ink/30 transition-transform group-hover:translate-x-0.5 group-hover:text-ink/65" strokeWidth={2} />
                     </button>
                   )
                 })}
@@ -185,7 +185,7 @@ export default function Participa() {
               <h3 className="font-display text-lg font-semibold text-ink">Ideas de la comunidad</h3>
               <button
                 onClick={() => setShowAllCommunity((v) => !v)}
-                className="text-sm font-semibold text-ink/60 transition-colors hover:text-ink"
+                className="inline-flex min-h-11 items-center text-sm font-semibold text-ink/65 transition-colors hover:text-ink"
               >
                 {showAllCommunity ? 'Ver menos' : 'Ver todas'}
               </button>

@@ -19,20 +19,20 @@ export default function Footer() {
           <p className="mt-2 text-base text-paper/60 md:text-lg">{SITE.role}</p>
         </div>
 
-        <div ref={rowRef} className="flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">
-          <nav className="flex flex-wrap gap-x-6 gap-y-2">
+        <div ref={rowRef} className="flex flex-col gap-4 py-8 md:flex-row md:items-center md:justify-between md:py-10">
+          <nav className="flex flex-wrap gap-x-6">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="text-sm text-paper/70 transition-colors hover:text-ember-soft">
+              <a key={link.href} href={link.href} className="inline-flex min-h-11 items-center text-sm text-paper/70 transition-colors hover:text-ember-soft">
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex flex-wrap items-center gap-5">
-            <a href={CONTACT.whatsappLink} className="flex items-center gap-2 text-sm text-paper/70 hover:text-ember-soft">
+          <div className="flex flex-wrap items-center gap-x-5">
+            <a href={CONTACT.whatsappLink} className="flex min-h-11 items-center gap-2 text-sm text-paper/70 hover:text-ember-soft">
               <MessageCircle className="size-4" strokeWidth={2} /> {CONTACT.whatsapp}
             </a>
-            <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 text-sm text-paper/70 hover:text-ember-soft">
+            <a href={`mailto:${CONTACT.email}`} className="flex min-h-11 items-center gap-2 text-sm text-paper/70 hover:text-ember-soft">
               <Mail className="size-4" strokeWidth={2} /> {CONTACT.email}
             </a>
             <div className="flex items-center gap-1.5">
@@ -41,22 +41,22 @@ export default function Footer() {
                   key={social.platform}
                   href={social.href}
                   aria-label={social.platform}
-                  className="flex size-8 items-center justify-center rounded-full text-paper/55 transition-all hover:-translate-y-0.5 hover:bg-paper/10 hover:text-paper"
+                  className="flex size-11 items-center justify-center rounded-full text-paper/70 transition-all hover:-translate-y-0.5 hover:bg-paper/10 hover:text-paper"
                 >
-                  <SocialIcon icon={social.icon} className="size-3.5" />
+                  <SocialIcon icon={social.icon} className="size-4" />
                 </a>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 border-t border-paper/10 py-8 text-xs text-paper/40 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 border-t border-paper/10 py-8 text-xs text-paper/60 md:flex-row md:items-center md:justify-between">
           <p>Todos los datos de este sitio son ficticios. Demo comercial desarrollada por NMTECH Solutions.</p>
           <div className="flex items-center gap-4">
-            <a href="#/transparencia" className="underline underline-offset-2 hover:text-paper/70">
+            <a href="#/transparencia" className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-paper">
               Transparencia
             </a>
-            <a href="#/panel" className="underline underline-offset-2 hover:text-paper/70">
+            <a href="#/panel" className="inline-flex min-h-11 items-center underline underline-offset-2 hover:text-paper">
               Panel de gestión (demo interna)
             </a>
           </div>

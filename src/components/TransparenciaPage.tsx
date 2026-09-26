@@ -17,7 +17,7 @@ export default function TransparenciaPage() {
   return (
     <section id="transparencia" className="bg-paper py-16 md:py-24">
       <Container>
-        <a href="#top" className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-ink/60 hover:text-ember">
+        <a href="#top" className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-ink/65 hover:text-ember-deep">
           <ArrowLeft className="size-4" strokeWidth={2.25} />
           Volver al inicio
         </a>
@@ -38,18 +38,18 @@ export default function TransparenciaPage() {
                 href="#"
                 className="group flex items-center gap-4 px-5 py-5 transition-colors hover:bg-ember-tint/30 md:px-7"
               >
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ember-tint text-ember transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-ember-tint text-ember-deep transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
                   <Icon className="size-5" strokeWidth={2} />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <span className="font-display text-base font-semibold text-ink">{doc.title}</span>
-                    <span className="rounded-full bg-ink/8 px-2 py-0.5 text-[11px] font-semibold text-ink/55">{doc.type}</span>
+                    <span className="rounded-full bg-ink/8 px-2 py-0.5 text-[11px] font-semibold text-ink/65">{doc.type}</span>
                   </span>
-                  <span className="mt-1 block text-sm text-ink/60">{doc.description}</span>
-                  <span className="mt-1 block text-xs text-ink/40">{doc.date}</span>
+                  <span className="mt-1 block text-sm text-ink/65">{doc.description}</span>
+                  <span className="mt-1 block text-xs text-ink/65">{doc.date}</span>
                 </span>
-                <ArrowUpRight className="size-4 shrink-0 text-ink/30 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ember" strokeWidth={2.25} />
+                <ArrowUpRight className="size-4 shrink-0 text-ink/45 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ember-deep" strokeWidth={2.25} />
               </a>
             )
           })}

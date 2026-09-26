@@ -19,7 +19,7 @@ function Badge({ value, label }: { value: number; label: string }) {
       <span className="font-display text-base font-semibold text-ink">
         <span ref={ref}>0</span>
       </span>
-      <span className="ml-1.5 text-xs text-ink/55">{label}</span>
+      <span className="ml-1.5 text-xs text-ink/65">{label}</span>
     </div>
   )
 }
@@ -44,7 +44,7 @@ export default function Comunidad() {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
           <div>
-            <p className="mb-4 text-sm text-ink/55">Tocá un barrio para ver qué se está conversando ahí.</p>
+            <p className="mb-4 text-sm text-ink/65">Tocá un barrio para ver qué se está conversando ahí.</p>
             <div className="grid grid-cols-2 auto-rows-[5rem] gap-2.5 sm:grid-cols-4 sm:auto-rows-[7.5rem]">
               {MAP_ZONES.map((zone, i) => {
                 const isActive = activeZone.neighborhood === zone.neighborhood
@@ -66,21 +66,21 @@ export default function Comunidad() {
 
           <div className="flex flex-col gap-6">
             <div key={activeZone.neighborhood} className="animate-fade-in rounded-2xl border border-paper-line p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ember">{activeZone.neighborhood}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ember-deep">{activeZone.neighborhood}</p>
               <p className="mt-1.5 text-sm leading-relaxed text-ink/65">
                 Temas más consultados: {activeZone.topTopics.join(', ')}.
               </p>
               {featuredProposal ? (
                 <div className="mt-4 border-t border-paper-line pt-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/40">Propuesta destacada</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink/65">Propuesta destacada</p>
                   <p className="mt-1 text-sm font-semibold text-ink">{featuredProposal.title}</p>
-                  <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-ink/60">{featuredProposal.description}</p>
+                  <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-ink/65">{featuredProposal.description}</p>
                 </div>
               ) : null}
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/40">Así se sigue una propuesta</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-ink/65">Así se sigue una propuesta</p>
               <div className="mt-3 flex items-center">
                 {TRACKING_STAGES.map((stage, index) => {
                   const done = index <= CURRENT_STAGE_INDEX
@@ -89,17 +89,22 @@ export default function Comunidad() {
                     <div key={stage} className={`flex items-center ${isLast ? '' : 'flex-1'}`}>
                       <span
                         title={stage}
-                        className={`flex size-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
-                          done ? 'bg-ember text-ink' : 'bg-paper-line text-ink/40'
+                        className={`flex size-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
+                          done ? 'bg-ember text-ink' : 'bg-paper-line text-ink/65'
                         }`}
                       >
-                        {done ? <Check className="size-3" strokeWidth={3} /> : index + 1}
+                        {done ? <Check className="size-3" strokeWidth={3} aria-hidden /> : <span aria-hidden>{index + 1}</span>}
+                        <span className="sr-only">{`${stage}${done ? ' (completada)' : ''}`}</span>
                       </span>
                       {isLast ? null : <div className={`mx-1 h-0.5 flex-1 ${index < CURRENT_STAGE_INDEX ? 'bg-ember' : 'bg-paper-line'}`} />}
                     </div>
                   )
                 })}
               </div>
+              <p className="mt-2.5 text-sm text-ink/70">
+                Etapa {CURRENT_STAGE_INDEX + 1} de {TRACKING_STAGES.length}:{' '}
+                <span className="font-semibold text-ink">{TRACKING_STAGES[CURRENT_STAGE_INDEX]}</span>
+              </p>
             </div>
 
             <div className="relative overflow-hidden rounded-2xl">
@@ -110,17 +115,17 @@ export default function Comunidad() {
                   <Calendar className="mt-0.5 size-4 shrink-0 text-ember-soft" strokeWidth={2.25} />
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.12em] text-paper/60">Próxima actividad</p>
-                    <h4 className="mt-1 font-display text-base font-semibold text-paper">{nextEvent.title}</h4>
+                    <h3 className="mt-1 font-display text-base font-semibold text-paper">{nextEvent.title}</h3>
                     <p className="mt-0.5 text-sm text-paper/70">
                       {nextEvent.date} · {nextEvent.place}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-2">
                   <button
                     onClick={() => setShowAgenda((v) => !v)}
-                    className="inline-flex items-center gap-1 text-sm font-semibold text-paper/75 hover:text-paper"
+                    className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-paper/75 hover:text-paper"
                   >
                     {showAgenda ? 'Ocultar agenda' : 'Ver agenda completa'}
                     <ChevronRight className={`size-4 transition-transform ${showAgenda ? 'rotate-90' : ''}`} strokeWidth={2.25} />
@@ -134,7 +139,7 @@ export default function Comunidad() {
                 {AGENDA_EVENTS.slice(1).map((event) => (
                   <li key={event.title} className="border-t border-paper-line pt-3">
                     <p className="text-sm font-semibold text-ink">{event.title}</p>
-                    <p className="text-sm text-ink/55">
+                    <p className="text-sm text-ink/65">
                       {event.date} · {event.place}
                     </p>
                   </li>

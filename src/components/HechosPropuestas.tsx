@@ -31,7 +31,7 @@ function AchievementCard({ item, featured }: { item: (typeof TRAJECTORY)[number]
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/10" />
         <div className="relative flex h-full min-h-80 flex-col justify-end p-6 md:min-h-[26rem]">
           <span className="font-display text-sm font-semibold text-paper/60">{item.year}</span>
-          <h4 className="mt-1 font-display text-xl font-semibold text-paper md:text-2xl">{item.title}</h4>
+          <h3 className="mt-1 font-display text-xl font-semibold text-paper md:text-2xl">{item.title}</h3>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-paper/75">{item.description}</p>
           <div className="mt-3 flex items-center gap-3">
             <StatusPill status={item.status} />
@@ -52,7 +52,7 @@ function AchievementCard({ item, featured }: { item: (typeof TRAJECTORY)[number]
         <span className="font-display text-sm font-semibold text-ember">{item.year}</span>
         <StatusPill status={item.status} />
       </div>
-      <h4 className="mt-2 font-display text-base font-semibold text-paper">{item.title}</h4>
+      <h3 className="mt-2 font-display text-base font-semibold text-paper">{item.title}</h3>
       <p className="mt-1.5 text-sm leading-relaxed text-paper/65">{item.description}</p>
       <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-paper/50">
         {open ? 'Ver menos' : 'Ver detalle'}
@@ -96,7 +96,7 @@ function PropongoView() {
                   isActive ? 'border-ember/50 bg-paper/[0.08] text-paper' : 'border-paper/10 text-paper/55 hover:border-paper/25'
                 }`}
               >
-                <span className={`text-[11px] font-semibold uppercase tracking-[0.12em] ${isActive ? 'text-ember' : 'text-paper/40'}`}>
+                <span className={`text-[11px] font-semibold uppercase tracking-[0.12em] ${isActive ? 'text-ember' : 'text-paper/60'}`}>
                   {p.area}
                 </span>
                 <p className="mt-0.5 whitespace-nowrap font-display text-sm font-semibold lg:whitespace-normal">{p.title}</p>
@@ -114,25 +114,25 @@ function PropongoView() {
           ) : null}
 
           <div className="bg-paper/[0.04] p-6 md:p-7">
-            <h4 key={priority.title} className="animate-fade-in font-display text-2xl font-semibold text-paper">
+            <h3 key={priority.title} className="animate-fade-in font-display text-2xl font-semibold text-paper">
               {priority.title}
-            </h4>
+            </h3>
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-paper/70 md:text-base">{priority.summary}</p>
 
             {proposal ? (
               <div className="mt-5 space-y-4 border-t border-paper/10 pt-5">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">El problema</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/60">El problema</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.problem}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">La propuesta</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/60">La propuesta</p>
                   <p className="mt-1.5 text-sm leading-relaxed text-paper/75">{proposal.proposal}</p>
                 </div>
 
                 <button
                   onClick={() => setShowDepth((v) => !v)}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-paper/50 hover:text-paper/80"
+                  className="inline-flex min-h-11 items-center gap-1.5 text-xs font-semibold text-paper/65 hover:text-paper"
                 >
                   {showDepth ? 'Ocultar implementación y medición' : 'Ver implementación y medición'}
                   <ChevronDown className={`size-3.5 transition-transform ${showDepth ? 'rotate-180' : ''}`} strokeWidth={2.5} />
@@ -141,7 +141,7 @@ function PropongoView() {
                 {showDepth ? (
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">Cómo se implementa</p>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/60">Cómo se implementa</p>
                       <ul className="mt-1.5 space-y-1">
                         {proposal.implementation.map((line) => (
                           <li key={line} className="text-sm leading-relaxed text-paper/70">
@@ -151,7 +151,7 @@ function PropongoView() {
                       </ul>
                     </div>
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/40">Cómo se mide</p>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-paper/60">Cómo se mide</p>
                       <ul className="mt-1.5 space-y-1">
                         {proposal.measurement.map((line) => (
                           <li key={line} className="text-sm leading-relaxed text-paper/70">
@@ -170,7 +170,7 @@ function PropongoView() {
 
       <button
         onClick={() => setShowMore((v) => !v)}
-        className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-paper/70 transition-colors hover:text-paper"
+        className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-paper/70 transition-colors hover:text-paper"
       >
         {showMore ? 'Ver menos propuestas' : 'Ver todas las propuestas'}
         <ArrowRight className={`size-4 transition-transform ${showMore ? '-rotate-90' : ''}`} strokeWidth={2.25} />
@@ -181,7 +181,7 @@ function PropongoView() {
           {MORE_PROPOSALS.map((p) => (
             <div key={p.title} className="rounded-xl border border-paper/10 bg-paper/[0.03] p-4">
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ember">{p.area}</span>
-              <h5 className="mt-1 font-display text-sm font-semibold text-paper">{p.title}</h5>
+              <h3 className="mt-1 font-display text-sm font-semibold text-paper">{p.title}</h3>
               <p className="mt-1 text-sm leading-relaxed text-paper/60">{p.proposal}</p>
             </div>
           ))}
@@ -207,7 +207,7 @@ export default function HechosPropuestas() {
           <div className="flex shrink-0 gap-1 self-start rounded-full bg-paper/[0.06] p-1">
             <button
               onClick={() => setTab('hecho')}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              className={`rounded-full px-4 py-3 text-sm font-semibold transition-colors ${
                 tab === 'hecho' ? 'bg-paper text-ink' : 'text-paper/60 hover:text-paper'
               }`}
             >
@@ -215,7 +215,7 @@ export default function HechosPropuestas() {
             </button>
             <button
               onClick={() => setTab('propongo')}
-              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+              className={`rounded-full px-4 py-3 text-sm font-semibold transition-colors ${
                 tab === 'propongo' ? 'bg-paper text-ink' : 'text-paper/60 hover:text-paper'
               }`}
             >

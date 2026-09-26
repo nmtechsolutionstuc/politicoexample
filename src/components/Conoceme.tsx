@@ -34,9 +34,10 @@ export default function Conoceme() {
       <Container>
         <SectionHeading eyebrow="01 · CONOCEME" title="Una historia muy de acá" />
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-14">
-          <div className="flex flex-col gap-6">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
+        {/* Photo, story and quote are grid siblings so phones read photo → story → quote,
+            while desktop keeps the quote tucked under the photo in the left column. */}
+        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:grid-rows-[auto_1fr] lg:gap-x-14 lg:gap-y-6">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl lg:col-start-1 lg:row-start-1">
               {TIMELINE_IMAGES.map((src, i) => (
                 <img
                   key={src}
@@ -55,13 +56,7 @@ export default function Conoceme() {
               </div>
             </div>
 
-            <div className="relative rounded-2xl bg-paper-dim p-6">
-              <Quote className="size-6 text-ember" strokeWidth={2} aria-hidden />
-              <p className="mt-3 font-script text-2xl leading-snug text-ink/85">{MOTIVATION.lessons}</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-8 lg:col-start-2 lg:row-span-2 lg:row-start-1">
             <div ref={bioRef} className="space-y-4">
               {BIO_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph} className="text-base leading-relaxed text-ink/70 md:text-lg">
@@ -70,14 +65,14 @@ export default function Conoceme() {
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-x-8 gap-y-3 border-y border-paper-line py-5">
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-paper-line py-5">
               {QUICK_FACTS.map((fact) => (
                 <div key={fact.label}>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/40">{fact.label}</p>
-                  <p className="mt-0.5 font-display text-sm font-semibold text-ink">{fact.value}</p>
+                  <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/65">{fact.label}</dt>
+                  <dd className="mt-0.5 font-display text-sm font-semibold text-ink">{fact.value}</dd>
                 </div>
               ))}
-            </div>
+            </dl>
 
             <div>
               <h3 className="font-display text-lg font-semibold text-ink">Trayectoria</h3>
@@ -89,8 +84,8 @@ export default function Conoceme() {
                     <button
                       key={item.year}
                       onClick={() => setSelected(item)}
-                      className={`flex-1 rounded-xl border px-3 py-2.5 text-left transition-colors ${
-                        isActive ? 'border-ink bg-ink text-paper' : 'border-paper-line text-ink/60 hover:border-ink/30'
+                      className={`flex-1 rounded-xl border px-3 py-3 text-left transition-colors ${
+                        isActive ? 'border-ink bg-ink text-paper' : 'border-paper-line text-ink/65 hover:border-ink/30'
                       }`}
                     >
                       <span className="font-display text-sm font-semibold">{item.year}</span>
@@ -111,7 +106,7 @@ export default function Conoceme() {
 
               <button
                 onClick={() => setExpanded((v) => !v)}
-                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-ink transition-colors hover:text-ember"
+                className="mt-1 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-ink transition-colors hover:text-ember-deep"
               >
                 {expanded ? 'Ver menos' : 'Ver trayectoria completa'}
                 <ChevronDown className={`size-4 transition-transform ${expanded ? 'rotate-180' : ''}`} strokeWidth={2.25} />
@@ -123,12 +118,12 @@ export default function Conoceme() {
                     <li key={item.year + item.title}>
                       <button
                         onClick={() => setSelected(item)}
-                        className={`flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-paper-dim ${
-                          item === selected ? 'text-ink' : 'text-ink/55'
+                        className={`flex min-h-11 w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-sm transition-colors hover:bg-paper-dim ${
+                          item === selected ? 'text-ink' : 'text-ink/65'
                         }`}
                       >
                         <span className="w-10 shrink-0 font-display font-semibold">{item.year}</span>
-                        <span className="flex-1 truncate">{item.title}</span>
+                        <span className="flex-1 leading-snug">{item.title}</span>
                       </button>
                     </li>
                   ))}
@@ -136,6 +131,11 @@ export default function Conoceme() {
               ) : null}
             </div>
           </div>
+
+          <figure className="relative self-start rounded-2xl bg-paper-dim p-6 lg:col-start-1 lg:row-start-2">
+            <Quote className="size-6 text-ember-deep" strokeWidth={2} aria-hidden />
+            <blockquote className="mt-3 font-script text-2xl leading-snug text-ink/85">{MOTIVATION.lessons}</blockquote>
+          </figure>
         </div>
       </Container>
     </section>

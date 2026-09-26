@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import Container from './Container'
 import SectionHeading from './SectionHeading'
-import { CONTACT, FAQS, SITE } from '../data/content'
+import { CONTACT, FAQS } from '../data/content'
 import closingPhoto from '../assets/images/politico-4.webp'
 
 function FaqAccordion() {
@@ -21,7 +21,7 @@ function FaqAccordion() {
             >
               <span className="font-display text-base font-semibold text-ink md:text-lg">{faq.question}</span>
               <ChevronDown
-                className={`size-5 shrink-0 text-ink/40 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                className={`size-5 shrink-0 text-ink/65 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                 strokeWidth={2.25}
               />
             </button>
@@ -53,9 +53,8 @@ export default function Preguntas() {
         <img src={closingPhoto} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-25" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/90 to-ink/70" />
         <Container className="relative text-center">
-          <p className="font-script text-3xl text-ember-soft md:text-4xl">Una ciudad mejor se construye escuchando.</p>
-          <h2 className="mt-4 font-display text-2xl font-semibold text-paper md:text-3xl">
-            {SITE.name} · {SITE.role}
+          <h2 className="mx-auto max-w-2xl font-script text-4xl leading-tight text-ember-soft md:text-5xl">
+            Una ciudad mejor se construye escuchando.
           </h2>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <a

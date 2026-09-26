@@ -120,7 +120,7 @@ export default function Hero() {
             overflowing and getting its head clipped. Desktop: two-column split. */}
         <Container className="relative flex h-full flex-col items-center gap-3 pb-6 pt-[4.5rem] md:grid md:grid-cols-[1fr_1fr] md:gap-4 md:py-0">
           <div className="relative z-10 flex w-full flex-col items-center text-center md:items-start md:text-left">
-            <div data-hero-in className="mb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-paper/70 md:mb-4 md:text-[11px]">
+            <div data-hero-in className="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-paper/75 md:mb-4 md:tracking-[0.18em]">
               {SITE.party} · {SITE.district}
             </div>
 

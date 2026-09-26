@@ -16,7 +16,7 @@ export default function SectionHeading({
   const ref = useScrollReveal<HTMLDivElement>()
   const titleColor = tone === 'dark' ? 'text-paper' : 'text-ink'
   const descColor = tone === 'dark' ? 'text-paper/70' : 'text-ink/65'
-  const eyebrowColor = tone === 'dark' ? 'text-ember-soft' : 'text-ember'
+  const eyebrowColor = tone === 'dark' ? 'text-ember-soft' : 'text-ember-deep'
 
   return (
     <div ref={ref} className={`max-w-2xl ${align === 'center' ? 'mx-auto text-center' : ''}`}>
