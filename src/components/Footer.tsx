@@ -11,20 +11,12 @@ export default function Footer() {
   return (
     <footer className="bg-ink pt-14 text-paper md:pt-16">
       <Container>
-        <div ref={headRef} className="flex flex-col gap-6 border-b border-paper/10 pb-12 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ember-soft">
-              {SITE.party} · {SITE.district}
-            </p>
-            <h2 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-5xl">{SITE.name}</h2>
-            <p className="mt-2 text-base text-paper/60 md:text-lg">{SITE.role}</p>
-          </div>
-          <a
-            href="#participa"
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-ember px-6 py-3.5 text-sm font-semibold text-paper transition-transform hover:-translate-y-0.5 active:scale-[0.98]"
-          >
-            Participá
-          </a>
+        <div ref={headRef} className="border-b border-paper/10 pb-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-ember-soft">
+            {SITE.party} · {SITE.district}
+          </p>
+          <h2 className="mt-3 font-display text-3xl font-semibold leading-tight md:text-5xl">{SITE.name}</h2>
+          <p className="mt-2 text-base text-paper/60 md:text-lg">{SITE.role}</p>
         </div>
 
         <div ref={rowRef} className="flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">

@@ -7,7 +7,9 @@ import { AGENDA_EVENTS, COMMUNITY_PROPOSALS, INDICATORS, MAP_ZONES, TRACKING_STA
 import agendaPhoto from '../assets/images/politico-3.webp'
 
 const CURRENT_STAGE_INDEX = 1
-const ZONE_SPANS = ['col-span-2 row-span-2', 'col-span-2', 'col-span-1', 'col-span-1', 'col-span-2', 'col-span-2']
+// Proportional bento only from `sm` up: at phone width a 1-of-4 column is ~70px and the
+// barrio names break letter by letter, so phones get an even 2x3 grid instead.
+const ZONE_SPANS = ['sm:col-span-2 sm:row-span-2', 'sm:col-span-2', 'sm:col-span-1', 'sm:col-span-1', 'sm:col-span-2', 'sm:col-span-2']
 const ZONE_TINTS = ['bg-ink', 'bg-ink-soft', 'bg-ink-line', 'bg-ink-line', 'bg-ink-soft', 'bg-ink-soft']
 
 function Badge({ value, label }: { value: number; label: string }) {
@@ -43,14 +45,14 @@ export default function Comunidad() {
         <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
           <div>
             <p className="mb-4 text-sm text-ink/55">Tocá un barrio para ver qué se está conversando ahí.</p>
-            <div className="grid grid-cols-4 auto-rows-[6.5rem] gap-2.5 sm:auto-rows-[7.5rem]">
+            <div className="grid grid-cols-2 auto-rows-[5rem] gap-2.5 sm:grid-cols-4 sm:auto-rows-[7.5rem]">
               {MAP_ZONES.map((zone, i) => {
                 const isActive = activeZone.neighborhood === zone.neighborhood
                 return (
                   <button
                     key={zone.neighborhood}
                     onClick={() => setActiveZone(zone)}
-                    className={`relative flex flex-col justify-end overflow-hidden rounded-2xl p-4 text-left transition-all ${ZONE_SPANS[i]} ${ZONE_TINTS[i]} ${
+                    className={`relative flex flex-col justify-end overflow-hidden rounded-2xl p-3.5 text-left transition-all sm:p-4 ${ZONE_SPANS[i]} ${ZONE_TINTS[i]} ${
                       isActive ? 'ring-2 ring-ember ring-offset-2 ring-offset-paper' : 'opacity-80 hover:opacity-100'
                     }`}
                   >
@@ -115,10 +117,7 @@ export default function Comunidad() {
                   </div>
                 </div>
 
-                <div className="mt-4 flex flex-wrap items-center gap-3">
-                  <a href="#participa" className="inline-flex items-center rounded-full bg-paper px-4 py-2 text-sm font-semibold text-ink">
-                    Quiero participar
-                  </a>
+                <div className="mt-4">
                   <button
                     onClick={() => setShowAgenda((v) => !v)}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-paper/75 hover:text-paper"

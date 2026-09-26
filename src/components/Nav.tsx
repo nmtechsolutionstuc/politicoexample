@@ -52,21 +52,13 @@ export default function Nav() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <a
-              href="#participa"
-              className="hidden items-center rounded-full bg-ink px-4 py-2 text-sm font-semibold text-paper transition-transform active:scale-[0.98] sm:inline-flex"
-            >
-              Sumate
-            </a>
-            <button
-              onClick={() => setMobileOpen(true)}
-              className="flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5 lg:hidden"
-              aria-label="Abrir menú"
-            >
-              <Menu className="size-5" strokeWidth={2} />
-            </button>
-          </div>
+          <button
+            onClick={() => setMobileOpen(true)}
+            className="flex size-10 items-center justify-center rounded-full text-ink transition-colors hover:bg-ink/5 lg:hidden"
+            aria-label="Abrir menú"
+          >
+            <Menu className="size-5" strokeWidth={2} />
+          </button>
         </div>
       </Container>
 
@@ -97,13 +89,6 @@ export default function Nav() {
                       {link.label}
                     </a>
                   ))}
-                  <a
-                    href="#participa"
-                    onClick={() => setMobileOpen(false)}
-                    className="mt-6 inline-flex items-center justify-center rounded-full bg-ink px-5 py-3.5 text-sm font-semibold text-paper"
-                  >
-                    Sumate
-                  </a>
                 </div>
               </Container>
             </div>,

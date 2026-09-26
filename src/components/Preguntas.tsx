@@ -58,9 +58,6 @@ export default function Preguntas() {
             {SITE.name} · {SITE.role}
           </h2>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a href="#participa" className="inline-flex items-center rounded-full bg-ember px-6 py-3.5 text-sm font-semibold text-ink">
-              Participá
-            </a>
             <a
               href={CONTACT.whatsappLink}
               target="_blank"
